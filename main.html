@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قبيلة الأشراف - الصفحة الرئيسية</title>
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #1877f2;
+            --primary-gradient: linear-gradient(135deg, #1877f2 0%, #0d47a1 100%);
+            --secondary-color: #42b72a;
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-primary: #050505;
+            --text-secondary: #65676b;
+            --border-color: #dddfe2;
+            --hover-bg: #f2f2f2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            background: var(--card-bg);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 900;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 36px;
+        }
+
+        .search-container {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 45px 12px 20px;
+            background: var(--hover-bg);
+            border: none;
+            border-radius: 50px;
+            font-size: 14px;
+            color: var(--text-primary);
+            text-align: right;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            background: var(--card-bg);
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        .search-btn {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Header Center - Navigation */
+        .header-center {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            padding: 15px 50px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 22px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-btn:hover {
+            background: var(--hover-bg);
+        }
+
+        .nav-btn.active {
+            color: var(--primary-color);
+        }
+
+        .nav-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: 0;
+            left: 0;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        /* Header Right - User Menu */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 5px 15px 5px 5px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .user-menu:hover {
+            background: var(--hover-bg);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            border: 3px solid var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .menu-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--hover-bg);
+            border: none;
+            color: var(--text-primary);
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-btn:hover {
+            background: #e4e6e9;
+        }
+
+        /* Main Container */
+        .main-container {
+            display: flex;
+            padding-top: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+
+        /* Left Sidebar */
+        .left-sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+
+        .sidebar-section {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-profile-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .user-profile-card .user-avatar {
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+        }
+
+        .profile-info h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .profile-info p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-item:hover {
+            background: var(--hover-bg);
+        }
+
+        .sidebar-item i {
+            font-size: 20px;
+            color: var(--primary-color);
+            width: 28px;
+            text-align: center;
+        }
+
+        .sidebar-item span {
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .badge {
+            background: var(--primary-color);
+            color: white;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-right: auto;
+            margin-left: 10px;
+        }
+
+        /* Main Feed */
+        .main-feed {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* Create Post */
+        .create-post {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .create-post-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .post-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            background: var(--bg-color);
+            font-size: 15px;
+            color: var(--text-primary);
+            text-align: right;
+            resize: none;
+            min-height: 80px;
+            transition: all 0.3s;
+        }
+
+        .post-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: var(--card-bg);
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .media-btns {
+            display: flex;
+            gap: 15px;
+        }
+
+        .media-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            border: none;
+            background: var(--hover-bg);
+            border-radius: 20px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .media-btn:hover {
+            background: #e4e6e9;
+        }
+
+        .media-btn i {
+            font-size: 18px;
+        }
+
+        .post-submit-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .post-submit-btn:hover {
+            background: #0d47a1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+        }
+
+        /* Posts Feed */
+        .posts-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Post Card */
+        .post-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .post-card:hover {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .post-header {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .author-info h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .post-time {
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .post-content {
+            padding: 0 20px 20px;
+        }
+
+        .post-text {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            white-space: pre-line;
+        }
+
+        .post-stats {
+            padding: 12px 20px;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: var(--text-secondary);
+            background: var(--bg-color);
+        }
+
+        .post-actions-bar {
+            display: flex;
+            padding: 5px;
+        }
+
+        .post-action-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .post-action-btn:hover {
+            background: var(--hover-bg);
+        }
+
+        .post-action-btn.liked {
+            color: #f91880;
+        }
+
+        /* Comments Section */
+        .comments-section {
+            padding: 15px 20px;
+            background: var(--bg-color);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .comment {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .comment-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .comment-content {
+            flex: 1;
+            background: var(--card-bg);
+            padding: 12px 15px;
+            border-radius: 15px;
+            border-top-right-radius: 0;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .comment-text {
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 5px;
+        }
+
+        .comment-time {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .add-comment {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .comment-input-container {
+            flex: 1;
+            position: relative;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 12px 50px 12px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            background: var(--card-bg);
+            font-size: 14px;
+            color: var(--text-primary);
+            text-align: right;
+            transition: all 0.3s;
+        }
+
+        .comment-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .comment-btn {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .comment-btn:hover {
+            background: #0d47a1;
+        }
+
+        /* Right Sidebar */
+        .right-sidebar {
+            width: 320px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+
+        .birthdays {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .birthdays i {
+            color: #ff6b6b;
+            font-size: 24px;
+        }
+
+        .birthdays span {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .events-list {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .events-list h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .event-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 8px;
+        }
+
+        .event-item:hover {
+            background: var(--hover-bg);
+        }
+
+        .event-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: var(--primary-gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .event-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .event-info p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Online Members */
+        .online-members {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .online-members h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .member-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 8px;
+        }
+
+        .member-item:hover {
+            background: var(--hover-bg);
+        }
+
+        .member-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            position: relative;
+        }
+
+        .online-status {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 12px;
+            height: 12px;
+            background: var(--secondary-color);
+            border: 2px solid var(--card-bg);
+            border-radius: 50%;
+        }
+
+        .member-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .member-info p {
+            font-size: 12px;
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .main-container {
+                padding: 80px 15px 20px;
+            }
+            
+            .right-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .left-sidebar {
+                display: none;
+            }
+            
+            .header-center {
+                display: none;
+            }
+            
+            .search-container {
+                width: 200px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                padding: 0 10px;
+            }
+            
+            .logo span {
+                display: none;
+            }
+            
+            .search-container {
+                width: 40px;
+            }
+            
+            .search-input {
+                display: none;
+            }
+            
+            .search-btn {
+                position: static;
+                transform: none;
+                background: var(--hover-bg);
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .user-name {
+                display: none;
+            }
+            
+            .media-btns {
+                display: none;
+            }
+            
+            .post-actions {
+                justify-content: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .post-card {
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #bcc0c4;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a4a8ad;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <i class="fas fa-crown"></i>
+                <span>قبيلة الأشراف</span>
+            </div>
+            
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="ابحث في القبيلة...">
+                <button class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="header-center">
+            <button class="nav-btn active">
+                <i class="fas fa-home"></i>
+            </button>
+            <button class="nav-btn">
+                <i class="fas fa-user-friends"></i>
+            </button>
+            <button class="nav-btn">
+                <i class="fas fa-tv"></i>
+            </button>
+            <button class="nav-btn">
+                <i class="fas fa-users"></i>
+            </button>
+        </div>
+        
+        <div class="header-right">
+            <button class="menu-btn">
+                <i class="fas fa-bell"></i>
+            </button>
+            <button class="menu-btn">
+                <i class="fas fa-comment-dots"></i>
+            </button>
+            <button class="menu-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+            
+            <div class="user-menu" id="userMenu">
+                <div class="user-avatar" id="userAvatar">أ</div>
+                <div class="user-name" id="userName">أحمد محمد</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Left Sidebar -->
+        <div class="left-sidebar">
+            <div class="sidebar-section">
+                <div class="user-profile-card">
+                    <div class="user-avatar" id="sidebarAvatar">أ</div>
+                    <div class="profile-info">
+                        <h3 id="sidebarName">أحمد محمد</h3>
+                        <p id="sidebarPhone">+201012345678</p>
+                    </div>
+                </div>
+                
+                <div class="sidebar-item">
+                    <i class="fas fa-user-friends"></i>
+                    <span>الأصدقاء</span>
+                    <span class="badge">12</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-history"></i>
+                    <span>الذكريات</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-save"></i>
+                    <span>المحفوظات</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-flag"></i>
+                    <span>الصفحات</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-calendar"></i>
+                    <span>الأحداث</span>
+                    <span class="badge">3</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-tree"></i>
+                    <span>شجرة العائلة</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-book"></i>
+                    <span>أنساب الأشراف</span>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3 style="margin-bottom: 15px; font-size: 16px; color: var(--text-primary);">المجموعات</h3>
+                <div class="sidebar-item">
+                    <i class="fas fa-users" style="color: #42b72a;"></i>
+                    <span>شباب القبيلة</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-users" style="color: #1877f2;"></i>
+                    <span>كبار العائلة</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-users" style="color: #ff6b6b;"></i>
+                    <span>الزواجات الجديدة</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Feed -->
+        <div class="main-feed">
+            <!-- Create Post -->
+            <div class="create-post">
+                <div class="create-post-header">
+                    <div class="user-avatar" id="postAvatar">أ</div>
+                    <div style="flex: 1;">
+                        <textarea 
+                            class="post-input" 
+                            id="postInput" 
+                            placeholder="ماذا يدور في ذهنك يا أشراف؟"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                </div>
+                
+                <div class="post-actions">
+                    <div class="media-btns">
+                        <button class="media-btn">
+                            <i class="fas fa-images" style="color: #42b72a;"></i>
+                            <span>صورة/فيديو</span>
+                        </button>
+                        <button class="media-btn">
+                            <i class="fas fa-user-tag" style="color: #1877f2;"></i>
+                            <span>وسم شخص</span>
+                        </button>
+                        <button class="media-btn">
+                            <i class="fas fa-smile" style="color: #f7b928;"></i>
+                            <span>مشاعر</span>
+                        </button>
+                    </div>
+                    
+                    <button class="post-submit-btn" id="submitPost">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>نشر</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Posts Feed -->
+            <div class="posts-feed" id="postsContainer">
+                <!-- Posts will be loaded here dynamically -->
+                <div class="no-posts" id="noPosts" style="text-align: center; padding: 40px; color: var(--text-secondary); display: none;">
+                    <i class="fas fa-comments" style="font-size: 48px; margin-bottom: 15px; color: var(--border-color);"></i>
+                    <h3>لا توجد منشورات بعد</h3>
+                    <p>كن أول من ينشر في القبيلة!</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Sidebar -->
+        <div class="right-sidebar">
+            <div class="birthdays">
+                <i class="fas fa-birthday-cake"></i>
+                <span>عيد ميلاد أحمد اليوم</span>
+            </div>
+            
+            <div class="events-list">
+                <h3>الأحداث القادمة</h3>
+                <div class="event-item">
+                    <div class="event-icon">
+                        <i class="fas fa-ring"></i>
+                    </div>
+                    <div class="event-info">
+                        <h4>زفاف محمد</h4>
+                        <p>الجمعة 15 ديسمبر</p>
+                    </div>
+                </div>
+                <div class="event-item">
+                    <div class="event-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="event-info">
+                        <h4>وليمة العائلة</h4>
+                        <p>السبت 16 ديسمبر</p>
+                    </div>
+                </div>
+                <div class="event-item">
+                    <div class="event-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="event-info">
+                        <h4>محاضرة الأنساب</h4>
+                        <p>الأحد 17 ديسمبر</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="online-members">
+                <h3>الأعضاء المتصلون</h3>
+                <div class="member-item">
+                    <div class="member-avatar">
+                        <span>م</span>
+                        <div class="online-status"></div>
+                    </div>
+                    <div class="member-info">
+                        <h4>محمد أحمد</h4>
+                        <p>متصل الآن</p>
+                    </div>
+                </div>
+                <div class="member-item">
+                    <div class="member-avatar">
+                        <span>س</span>
+                        <div class="online-status"></div>
+                    </div>
+                    <div class="member-info">
+                        <h4>سارة محمد</h4>
+                        <p>متصل الآن</p>
+                    </div>
+                </div>
+                <div class="member-item">
+                    <div class="member-avatar">
+                        <span>خ</span>
+                        <div class="online-status"></div>
+                    </div>
+                    <div class="member-info">
+                        <h4>خالد علي</h4>
+                        <p>متصل الآن</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAATHo2-310ZNkYpaT_zMFEcYVfmzkZUR4",
+            databaseURL: "https://davinci-434f1-default-rtdb.firebaseio.com",
+            projectId: "davinci-434f1",
+            storageBucket: "davinci-434f1.firebasestorage.app"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Check if user is logged in
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        
+        if (!currentUser) {
+            window.location.href = 'index.html';
+            throw new Error('يجب تسجيل الدخول أولاً');
+        }
+
+        // DOM Elements
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+        const sidebarAvatar = document.getElementById('sidebarAvatar');
+        const sidebarName = document.getElementById('sidebarName');
+        const sidebarPhone = document.getElementById('sidebarPhone');
+        const postAvatar = document.getElementById('postAvatar');
+        const postInput = document.getElementById('postInput');
+        const submitPost = document.getElementById('submitPost');
+        const postsContainer = document.getElementById('postsContainer');
+        const noPosts = document.getElementById('noPosts');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        // Set user information
+        function setUserInfo() {
+            const firstLetter = currentUser.name.charAt(0);
+            userAvatar.textContent = firstLetter;
+            sidebarAvatar.textContent = firstLetter;
+            postAvatar.textContent = firstLetter;
+            
+            userName.textContent = currentUser.name;
+            sidebarName.textContent = currentUser.name;
+            sidebarPhone.textContent = `+20${currentUser.phone}`;
+        }
+
+        // Load posts from Firebase
+        function loadPosts() {
+            const postsRef = database.ref('posts');
+            
+            postsRef.orderByChild('timestamp').on('value', (snapshot) => {
+                postsContainer.innerHTML = '';
+                const posts = [];
+                
+                snapshot.forEach((childSnapshot) => {
+                    const post = childSnapshot.val();
+                    post.id = childSnapshot.key;
+                    posts.unshift(post); // Newest first
+                });
+                
+                if (posts.length === 0) {
+                    noPosts.style.display = 'block';
+                } else {
+                    noPosts.style.display = 'none';
+                    posts.forEach(renderPost);
+                }
+            });
+        }
+
+        // Render a single post
+        function renderPost(post) {
+            const postElement = document.createElement('div');
+            postElement.className = 'post-card';
+            postElement.dataset.id = post.id;
+            
+            const firstLetter = post.authorName ? post.authorName.charAt(0) : 'م';
+            const timeAgo = getTimeAgo(post.timestamp);
+            
+            postElement.innerHTML = `
+                <div class="post-header">
+                    <div class="post-author">
+                        <div class="author-avatar">${firstLetter}</div>
+                        <div class="author-info">
+                            <h4>${post.authorName || 'عضو القبيلة'}</h4>
+                            <div class="post-time">
+                                <i class="far fa-clock"></i>
+                                <span>${timeAgo}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="menu-btn post-menu-btn">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                </div>
+                
+                <div class="post-content">
+                    <div class="post-text">${escapeHtml(post.text)}</div>
+                </div>
+                
+                <div class="post-stats">
+                    <div class="likes-count">
+                        <i class="fas fa-thumbs-up"></i>
+                        <span>${post.likes || 0} إعجاب</span>
+                    </div>
+                    <div class="comments-count">
+                        <span>${post.comments ? Object.keys(post.comments).length : 0} تعليق</span>
+                    </div>
+                </div>
+                
+                <div class="post-actions-bar">
+                    <button class="post-action-btn like-btn" data-id="${post.id}">
+                        <i class="far fa-thumbs-up"></i>
+                        <span>إعجاب</span>
+                    </button>
+                    <button class="post-action-btn comment-btn" data-id="${post.id}">
+                        <i class="far fa-comment"></i>
+                        <span>تعليق</span>
+                    </button>
+                    <button class="post-action-btn share-btn" data-id="${post.id}">
+                        <i class="fas fa-share"></i>
+                        <span>مشاركة</span>
+                    </button>
+                </div>
+                
+                <div class="comments-section" id="comments-${post.id}">
+                    <!-- Comments will be loaded here -->
+                </div>
+            `;
+            
+            postsContainer.appendChild(postElement);
+            
+            // Load comments for this post
+            loadComments(post.id);
+            
+            // Add event listeners
+            const likeBtn = postElement.querySelector('.like-btn');
+            const commentBtn = postElement.querySelector('.comment-btn');
+            
+            likeBtn.addEventListener('click', () => toggleLike(post.id));
+            commentBtn.addEventListener('click', () => focusComment(post.id));
+            
+            // Add comment input
+            addCommentInput(post.id);
+        }
+
+        // Add comment input to post
+        function addCommentInput(postId) {
+            const commentsSection = document.getElementById(`comments-${postId}`);
+            
+            const commentInputHTML = `
+                <div class="add-comment">
+                    <div class="comment-avatar">${currentUser.name.charAt(0)}</div>
+                    <div class="comment-input-container">
+                        <input 
+                            type="text" 
+                            class="comment-input" 
+                            placeholder="اكتب تعليقاً..."
+                            data-post="${postId}"
+                        >
+                        <button class="comment-btn" data-post="${postId}">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            commentsSection.innerHTML += commentInputHTML;
+            
+            // Add event listener for comment button
+            const commentSubmitBtn = commentsSection.querySelector('.comment-btn');
+            const commentInput = commentsSection.querySelector('.comment-input');
+            
+            commentSubmitBtn.addEventListener('click', () => addComment(postId));
+            commentInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    addComment(postId);
+                }
+            });
+        }
+
+        // Load comments for a post
+        function loadComments(postId) {
+            const commentsRef = database.ref(`posts/${postId}/comments`);
+            
+            commentsRef.orderByChild('timestamp').on('value', (snapshot) => {
+                const commentsSection = document.getElementById(`comments-${postId}`);
+                const existingComments = commentsSection.querySelectorAll('.comment');
+                existingComments.forEach(comment => comment.remove());
+                
+                const commentsDiv = commentsSection.querySelector('.add-comment')?.previousElementSibling;
+                
+                snapshot.forEach((childSnapshot) => {
+                    const comment = childSnapshot.val();
+                    const timeAgo = getTimeAgo(comment.timestamp);
+                    
+                    const commentElement = document.createElement('div');
+                    commentElement.className = 'comment';
+                    commentElement.innerHTML = `
+                        <div class="comment-avatar">${comment.authorName?.charAt(0) || 'م'}</div>
+                        <div class="comment-content">
+                            <div class="comment-author">${comment.authorName || 'عضو'}</div>
+                            <div class="comment-text">${escapeHtml(comment.text)}</div>
+                            <div class="comment-time">${timeAgo}</div>
+                        </div>
+                    `;
+                    
+                    commentsSection.insertBefore(commentElement, commentsSection.querySelector('.add-comment'));
+                });
+            });
+        }
+
+        // Add a new comment
+        function addComment(postId) {
+            const commentInput = document.querySelector(`.comment-input[data-post="${postId}"]`);
+            const commentText = commentInput.value.trim();
+            
+            if (!commentText) return;
+            
+            const comment = {
+                text: commentText,
+                authorId: currentUser.phone,
+                authorName: currentUser.name,
+                timestamp: Date.now()
+            };
+            
+            const commentRef = database.ref(`posts/${postId}/comments`).push();
+            commentRef.set(comment)
+                .then(() => {
+                    commentInput.value = '';
+                })
+                .catch((error) => {
+                    console.error('Error adding comment:', error);
+                    alert('حدث خطأ في إضافة التعليق');
+                });
+        }
+
+        // Toggle like on post
+        function toggleLike(postId) {
+            const postRef = database.ref(`posts/${postId}`);
+            
+            postRef.transaction((post) => {
+                if (post) {
+                    post.likes = (post.likes || 0) + 1;
+                }
+                return post;
+            });
+        }
+
+        // Focus on comment input
+        function focusComment(postId) {
+            const commentInput = document.querySelector(`.comment-input[data-post="${postId}"]`);
+            if (commentInput) {
+                commentInput.focus();
+            }
+        }
+
+        // Create new post
+        submitPost.addEventListener('click', () => {
+            const postText = postInput.value.trim();
+            
+            if (!postText) {
+                alert('الرجاء كتابة محتوى المنشور');
+                return;
+            }
+            
+            const post = {
+                text: postText,
+                authorId: currentUser.phone,
+                authorName: currentUser.name,
+                timestamp: Date.now(),
+                likes: 0,
+                comments: {}
+            };
+            
+            const postRef = database.ref('posts').push();
+            postRef.set(post)
+                .then(() => {
+                    postInput.value = '';
+                    alert('تم نشر المنشور بنجاح!');
+                })
+                .catch((error) => {
+                    console.error('Error posting:', error);
+                    alert('حدث خطأ في نشر المنشور');
+                });
+        });
+
+        // Logout
+        logoutBtn.addEventListener('click', () => {
+            if (confirm('هل تريد تسجيل الخروج؟')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Helper functions
+        function getTimeAgo(timestamp) {
+            const seconds = Math.floor((Date.now() - timestamp) / 1000);
+            
+            if (seconds < 60) return 'الآن';
+            if (seconds < 3600) return `قبل ${Math.floor(seconds / 60)} دقيقة`;
+            if (seconds < 86400) return `قبل ${Math.floor(seconds / 3600)} ساعة`;
+            if (seconds < 2592000) return `قبل ${Math.floor(seconds / 86400)} يوم`;
+            if (seconds < 31536000) return `قبل ${Math.floor(seconds / 2592000)} شهر`;
+            return `قبل ${Math.floor(seconds / 31536000)} سنة`;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            setUserInfo();
+            loadPosts();
+            
+            // Set active navigation
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    navBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

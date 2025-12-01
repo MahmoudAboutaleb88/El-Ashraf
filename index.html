@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قبيلة الأشراف - تسجيل الدخول</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 480px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .auth-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 75px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+        }
+
+        .tagline {
+            color: #666;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* Toggle Tabs */
+        .auth-tabs {
+            display: flex;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 12px;
+            padding: 6px;
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            font-weight: 700;
+            color: #666;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Forms */
+        .form-section {
+            display: none;
+            animation: slideUp 0.5s ease;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .form-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .form-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .phone-prefix {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 20px 16px 50px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            text-align: right;
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+            background: #f8f9ff;
+        }
+
+        .form-input::placeholder {
+            color: #aaa;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        /* Messages */
+        .alert {
+            padding: 14px 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+            animation: shake 0.5s ease;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-error {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+            color: white;
+            border-right: 4px solid #d63031;
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+            color: white;
+            border-right: 4px solid #00a085;
+        }
+
+        .alert-loading {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            border-right: 4px solid #0984e3;
+        }
+
+        .alert-icon {
+            margin-left: 8px;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Features List */
+        .features {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .features h3 {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 15px;
+            background: rgba(102, 126, 234, 0.08);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            background: rgba(102, 126, 234, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #667eea;
+        }
+
+        .feature-text {
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 30px 20px;
+            }
+            
+            .logo {
+                font-size: 36px;
+            }
+            
+            .form-title {
+                font-size: 24px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- Logo & Tagline -->
+            <div class="logo-header">
+                <div class="logo">قبيلة الأشراف</div>
+                <div class="tagline">شبكة التواصل الاجتماعي الأولى للعائلة</div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="auth-tabs">
+                <button class="tab-btn active" data-tab="login">تسجيل الدخول</button>
+                <button class="tab-btn" data-tab="register">مستخدم جديد</button>
+            </div>
+
+            <!-- Alert Messages -->
+            <div id="alertMessage" class="alert"></div>
+
+            <!-- Login Form -->
+            <div id="loginSection" class="form-section active">
+                <h2 class="form-title">مرحباً بعودتك 👋</h2>
+                <p class="form-subtitle">ادخل رقم هاتفك المسجل للدخول إلى حسابك</p>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginPhone">رقم الهاتف</label>
+                        <div class="input-with-icon">
+                            <span class="phone-prefix">+20</span>
+                            <input 
+                                type="tel" 
+                                id="loginPhone" 
+                                class="form-input" 
+                                placeholder="10XXXXXXXXX"
+                                maxlength="10"
+                                required
+                            >
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" id="loginBtn">
+                        <span id="loginText">دخول إلى الحساب</span>
+                        <span id="loginSpinner" class="spinner hidden"></span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerSection" class="form-section">
+                <h2 class="form-title">انضم إلينا 🎉</h2>
+                <p class="form-subtitle">أنشئ حسابك الجديد برقم هاتفك</p>
+                
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="registerPhone">رقم الهاتف</label>
+                        <div class="input-with-icon">
+                            <span class="phone-prefix">+20</span>
+                            <input 
+                                type="tel" 
+                                id="registerPhone" 
+                                class="form-input" 
+                                placeholder="10XXXXXXXXX"
+                                maxlength="10"
+                                required
+                            >
+                        </div>
+                        <small style="color: #666; font-size: 12px; margin-top: 5px; display: block;">
+                            سيتم استخدام هذا الرقم كمعرف حسابك (لا يمكن تغييره)
+                        </small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerName">الاسم الكامل</label>
+                        <input 
+                            type="text" 
+                            id="registerName" 
+                            class="form-input" 
+                            placeholder="أحمد محمد علي"
+                            required
+                        >
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" id="registerBtn">
+                        <span id="registerText">إنشاء حساب جديد</span>
+                        <span id="registerSpinner" class="spinner hidden"></span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Features -->
+            <div class="features">
+                <h3>لماذا تنضم إلينا؟</h3>
+                <div class="features-grid">
+                    <div class="feature">
+                        <div class="feature-icon">👑</div>
+                        <div class="feature-text">نسب الأشراف</div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🔒</div>
+                        <div class="feature-text">خصوصية تامة</div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">💬</div>
+                        <div class="feature-text">تواصل عائلي</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAATHo2-310ZNkYpaT_zMFEcYVfmzkZUR4",
+            authDomain: "davinci-434f1.firebaseapp.com",
+            databaseURL: "https://davinci-434f1-default-rtdb.firebaseio.com",
+            projectId: "davinci-434f1",
+            storageBucket: "davinci-434f1.firebasestorage.app",
+            messagingSenderId: "1015604735230",
+            appId: "1:1015604735230:android:5a9ba8a277ffd00c0689af"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // DOM Elements
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const loginSection = document.getElementById('loginSection');
+        const registerSection = document.getElementById('registerSection');
+        const alertMessage = document.getElementById('alertMessage');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const registerBtn = document.getElementById('registerBtn');
+        const loginText = document.getElementById('loginText');
+        const registerText = document.getElementById('registerText');
+        const loginSpinner = document.getElementById('loginSpinner');
+        const registerSpinner = document.getElementById('registerSpinner');
+
+        // Tab Switching
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all tabs
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked tab
+                button.classList.add('active');
+                
+                // Show corresponding section
+                const tab = button.getAttribute('data-tab');
+                
+                // Hide all sections
+                loginSection.classList.remove('active');
+                registerSection.classList.remove('active');
+                
+                // Show selected section
+                if (tab === 'login') {
+                    loginSection.classList.add('active');
+                } else {
+                    registerSection.classList.add('active');
+                }
+                
+                // Clear any alert messages
+                hideAlert();
+            });
+        });
+
+        // Show Alert Function
+        function showAlert(message, type = 'error') {
+            alertMessage.textContent = message;
+            alertMessage.className = `alert alert-${type} show`;
+            
+            // Auto hide after 5 seconds for success messages
+            if (type === 'success') {
+                setTimeout(hideAlert, 5000);
+            }
+        }
+
+        // Hide Alert
+        function hideAlert() {
+            alertMessage.classList.remove('show');
+        }
+
+        // Show Loading
+        function showLoading(button, textElement, spinner) {
+            textElement.style.opacity = '0.5';
+            spinner.classList.remove('hidden');
+            button.disabled = true;
+        }
+
+        // Hide Loading
+        function hideLoading(button, textElement, spinner) {
+            textElement.style.opacity = '1';
+            spinner.classList.add('hidden');
+            button.disabled = false;
+        }
+
+        // Validate Egyptian Phone Number
+        function validateEgyptianPhone(phone) {
+            // Remove any non-digit characters
+            const cleanPhone = phone.replace(/\D/g, '');
+            
+            // Check if it's 10 digits and starts with 1
+            if (cleanPhone.length !== 10) {
+                return { valid: false, message: 'يجب أن يكون الرقم 10 أرقام' };
+            }
+            
+            if (!cleanPhone.startsWith('1')) {
+                return { valid: false, message: 'يجب أن يبدأ الرقم بـ 1' };
+            }
+            
+            return { valid: true, number: cleanPhone };
+        }
+
+        // Login Function
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const phoneInput = document.getElementById('loginPhone').value;
+            const validation = validateEgyptianPhone(phoneInput);
+            
+            if (!validation.valid) {
+                showAlert(validation.message, 'error');
+                return;
+            }
+            
+            const phoneNumber = validation.number;
+            
+            // Show loading
+            showLoading(loginBtn, loginText, loginSpinner);
+            hideAlert();
+            
+            try {
+                // Check if user exists in database
+                const userRef = database.ref(`users/${phoneNumber}`);
+                const snapshot = await userRef.once('value');
+                
+                if (snapshot.exists()) {
+                    // User exists - Login successful
+                    const userData = snapshot.val();
+                    
+                    // Store user data in localStorage
+                    localStorage.setItem('currentUser', JSON.stringify({
+                        phone: phoneNumber,
+                        name: userData.name,
+                        createdAt: userData.createdAt
+                    }));
+                    
+                    // Show success message
+                    showAlert(`مرحباً ${userData.name}! تم الدخول بنجاح`, 'success');
+                    
+                    // Redirect to main page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'main.html'; // You'll create this page
+                    }, 2000);
+                    
+                } else {
+                    // User doesn't exist
+                    showAlert('هذا الرقم غير مسجل! قم بإنشاء حساب جديد', 'error');
+                    hideLoading(loginBtn, loginText, loginSpinner);
+                }
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                showAlert('حدث خطأ في الاتصال. حاول مرة أخرى', 'error');
+                hideLoading(loginBtn, loginText, loginSpinner);
+            }
+        });
+
+        // Register Function
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const phoneInput = document.getElementById('registerPhone').value;
+            const nameInput = document.getElementById('registerName').value.trim();
+            
+            // Validate inputs
+            if (!nameInput || nameInput.length < 3) {
+                showAlert('الاسم يجب أن يكون 3 أحرف على الأقل', 'error');
+                return;
+            }
+            
+            const validation = validateEgyptianPhone(phoneInput);
+            if (!validation.valid) {
+                showAlert(validation.message, 'error');
+                return;
+            }
+            
+            const phoneNumber = validation.number;
+            
+            // Show loading
+            showLoading(registerBtn, registerText, registerSpinner);
+            hideAlert();
+            
+            try {
+                // Check if user already exists
+                const userRef = database.ref(`users/${phoneNumber}`);
+                const snapshot = await userRef.once('value');
+                
+                if (snapshot.exists()) {
+                    showAlert('هذا الرقم مسجل بالفعل! يمكنك تسجيل الدخول', 'error');
+                    hideLoading(registerBtn, registerText, registerSpinner);
+                    return;
+                }
+                
+                // Create new user
+                const newUser = {
+                    name: nameInput,
+                    phone: phoneNumber,
+                    createdAt: firebase.database.ServerValue.TIMESTAMP,
+                    lastLogin: firebase.database.ServerValue.TIMESTAMP
+                };
+                
+                // Save to database
+                await userRef.set(newUser);
+                
+                // Store user data in localStorage
+                localStorage.setItem('currentUser', JSON.stringify({
+                    phone: phoneNumber,
+                    name: nameInput,
+                    createdAt: new Date().toISOString()
+                }));
+                
+                // Show success message
+                showAlert(`مبروك ${nameInput}! تم إنشاء حسابك بنجاح`, 'success');
+                
+                // Clear form
+                registerForm.reset();
+                
+                // Switch to login tab after 3 seconds
+                setTimeout(() => {
+                    tabButtons[0].click();
+                    hideLoading(registerBtn, registerText, registerSpinner);
+                    
+                    // Redirect to main page after 2 more seconds
+                    setTimeout(() => {
+                        window.location.href = 'main.html';
+                    }, 2000);
+                }, 3000);
+                
+            } catch (error) {
+                console.error('Registration error:', error);
+                showAlert('حدث خطأ أثناء إنشاء الحساب. حاول مرة أخرى', 'error');
+                hideLoading(registerBtn, registerText, registerSpinner);
+            }
+        });
+
+        // Phone number formatting
+        const phoneInputs = document.querySelectorAll('input[type="tel"]');
+        phoneInputs.forEach(input => {
+            input.addEventListener('input', (e) => {
+                // Allow only numbers
+                e.target.value = e.target.value.replace(/\D/g, '');
+                
+                // Limit to 10 digits
+                if (e.target.value.length > 10) {
+                    e.target.value = e.target.value.slice(0, 10);
+                }
+            });
+            
+            // Add focus effect
+            input.addEventListener('focus', () => {
+                input.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', () => {
+                input.parentElement.style.transform = 'scale(1)';
+            });
+        });
+
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                showAlert('أنت مسجل دخول بالفعل. يتم توجيهك...', 'loading');
+                setTimeout(() => {
+                    window.location.href = 'main.html';
+                }, 1500);
+            }
+        });
+    </script>
+</body>
+</html>
