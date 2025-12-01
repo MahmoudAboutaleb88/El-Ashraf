@@ -1,0 +1,1480 @@
+/* ========== إعدادات عامة ========== */
+:root {
+    --primary-color: #1877f2;
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --text-muted: #999999;
+    --border-color: #e4e6eb;
+    --background-color: #f0f2f5;
+    --card-bg: #ffffff;
+    --hover-bg: #f5f5f5;
+    --vote-option-bg: #f8f9fa;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+    direction: rtl;
+    min-height: 100vh;
+    padding-bottom: 80px;
+    overflow-x: hidden;
+}
+
+/* ========== التمرير ========== */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* ========== رأس الصفحة ========== */
+.header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 60px;
+    background: var(--card-bg);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 1000;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.logo i {
+    font-size: 24px;
+    color: #ffc107;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.notification-bell {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--hover-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
+}
+
+.notification-bell:hover {
+    background: var(--border-color);
+    color: var(--primary-color);
+}
+
+.notification-count {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    background: var(--danger-color);
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    display: none;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* ========== المحتوى الرئيسي ========== */
+.main-content {
+    max-width: 600px;
+    margin: 80px auto 20px;
+    padding: 0 15px;
+}
+
+/* ========== إنشاء المنشور ========== */
+.create-post {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.create-post-header {
+    padding: 20px;
+    display: flex;
+    gap: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+#postAvatar {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.post-type-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.post-type-btn {
+    flex: 1;
+    padding: 10px 15px;
+    border: 2px solid var(--border-color);
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.post-type-btn.active {
+    border-color: var(--primary-color);
+    background: rgba(24, 119, 242, 0.1);
+    color: var(--primary-color);
+}
+
+.post-type-btn:hover:not(.active) {
+    border-color: var(--text-muted);
+}
+
+.post-input-container {
+    margin-bottom: 15px;
+}
+
+.post-input {
+    width: 100%;
+    min-height: 60px;
+    max-height: 300px;
+    padding: 15px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    color: var(--text-primary);
+    text-align: right;
+    resize: none;
+    font-family: inherit;
+    line-height: 1.5;
+    transition: all 0.3s ease;
+    background: var(--card-bg);
+}
+
+.post-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.1);
+}
+
+.post-input::placeholder {
+    color: var(--text-muted);
+}
+
+/* ========== خيارات التصويت ========== */
+.vote-options-container {
+    background: var(--vote-option-bg);
+    border-radius: var(--radius-md);
+    padding: 15px;
+    margin-top: 15px;
+    border: 2px dashed var(--border-color);
+    display: none;
+}
+
+.vote-options-container.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.vote-option {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.vote-option:hover {
+    border-color: var(--primary-color);
+}
+
+.vote-option-input {
+    width: 100%;
+    border: none;
+    background: none;
+    font-size: 15px;
+    color: var(--text-primary);
+    text-align: right;
+    outline: none;
+    font-family: inherit;
+    padding: 0;
+}
+
+.vote-option-input::placeholder {
+    color: var(--text-muted);
+}
+
+.vote-option-input:focus {
+    color: var(--primary-color);
+}
+
+.add-option-btn {
+    width: 100%;
+    padding: 12px;
+    border: 2px dashed var(--border-color);
+    background: transparent;
+    border-radius: var(--radius-sm);
+    color: var(--primary-color);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.add-option-btn:hover {
+    background: rgba(24, 119, 242, 0.1);
+    border-color: var(--primary-color);
+}
+
+/* ========== إجراءات النشر ========== */
+.post-actions {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    background: var(--hover-bg);
+}
+
+.post-submit-btn {
+    padding: 12px 30px;
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.post-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.post-submit-btn:active {
+    transform: translateY(0);
+}
+
+/* ========== حاوية المنشورات ========== */
+.posts-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* ========== المنشورات كما يولدها JavaScript ========== */
+.post-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    animation: slideUp 0.5s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* رأس المنشور */
+.post-card .post-header {
+    padding: 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+}
+
+.post-card .author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.post-card .author-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.post-card .author-info h4 {
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    font-size: 15px;
+}
+
+.post-card .post-time {
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.post-card .post-type-badge {
+    background: var(--primary-color);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    margin-left: 5px;
+}
+
+/* قائمة خيارات المنشور */
+.post-card .post-menu-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 15px;
+    top: 15px;
+}
+
+.post-card .post-menu-btn:hover {
+    background: var(--border-color);
+    color: var(--primary-color);
+}
+
+.post-card .post-menu-dropdown {
+    position: absolute;
+    top: 45px;
+    left: 15px;
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    width: 160px;
+    display: none;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.post-card .post-menu-dropdown.show {
+    display: block;
+    animation: fadeIn 0.2s ease;
+}
+
+.post-card .post-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: right;
+    font-size: 14px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.post-card .post-menu-item:last-child {
+    border-bottom: none;
+}
+
+.post-card .post-menu-item:hover {
+    background: var(--hover-bg);
+}
+
+.post-card .post-menu-item.delete {
+    color: var(--danger-color);
+}
+
+.post-card .post-menu-item.delete:hover {
+    background: #ffebee;
+}
+
+/* محتوى المنشور */
+.post-card .post-content {
+    padding: 15px;
+}
+
+.post-card .post-text {
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-size: 15px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* التصويت في المنشور */
+.post-card .vote-post {
+    margin-top: 15px;
+    padding: 15px;
+    background: var(--vote-option-bg);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.post-card .vote-post h5 {
+    margin-bottom: 10px;
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.post-card .vote-option-result {
+    position: relative;
+    padding: 12px 15px;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+
+.post-card .vote-option-result:hover {
+    border-color: var(--primary-color);
+}
+
+.post-card .vote-option-result.selected {
+    border-color: var(--primary-color);
+    background: rgba(24, 119, 242, 0.1);
+}
+
+.post-card .vote-bar {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(24, 119, 242, 0.1);
+    border-radius: var(--radius-sm);
+    z-index: 0;
+    transition: width 0.5s ease;
+}
+
+.post-card .vote-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.post-card .vote-text {
+    font-weight: 500;
+    color: var(--text-primary);
+    flex: 1;
+}
+
+.post-card .vote-percentage {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+.post-card .vote-count {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: left;
+}
+
+/* إحصائيات المنشور */
+.post-card .post-stats {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 15px 10px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.post-card .post-stats > div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* إجراءات المنشور */
+.post-card .post-actions-bar {
+    padding: 12px 15px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-around;
+    background: var(--hover-bg);
+}
+
+.post-card .post-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: none;
+    background: none;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: all 0.3s ease;
+}
+
+.post-card .post-action-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--primary-color);
+}
+
+.post-card .post-action-btn.liked {
+    color: #e0245e;
+}
+
+.post-card .post-action-btn.disliked {
+    color: #1877f2;
+}
+
+/* التعليقات */
+.post-card .comments-section {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+.post-card .comment {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.post-card .comment-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.post-card .comment-content {
+    flex: 1;
+}
+
+.post-card .comment-author {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.post-card .comment-text {
+    color: var(--text-primary);
+    line-height: 1.5;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.post-card .comment-time {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.post-card .add-comment {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.post-card .comment-input-container {
+    flex: 1;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.post-card .comment-input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    color: var(--text-primary);
+    resize: none;
+    min-height: 40px;
+    max-height: 100px;
+    font-family: inherit;
+}
+
+.post-card .comment-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.post-card .comment-btn {
+    padding: 10px 15px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.post-card .comment-btn:hover {
+    background: #0d47a1;
+}
+
+/* تصميم الحالة الفارغة */
+.no-posts {
+    text-align: center;
+    padding: 50px 20px;
+    color: var(--text-muted);
+}
+
+.no-posts i {
+    font-size: 48px;
+    color: var(--border-color);
+    margin-bottom: 15px;
+}
+
+.no-posts h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+}
+
+.no-posts p {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* ========== شريط التنقل السفلي ========== */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 70px;
+    background: var(--card-bg);
+    box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1000;
+    border-top: 1px solid var(--border-color);
+    padding: 0 10px;
+}
+
+.nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 12px 0;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: var(--radius-sm);
+    max-width: 80px;
+}
+
+.nav-item:hover {
+    color: var(--primary-color);
+    background: var(--hover-bg);
+}
+
+.nav-item.active {
+    color: var(--primary-color);
+}
+
+.nav-item i {
+    font-size: 20px;
+}
+
+/* ========== النوافذ المنبثقة ========== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
+}
+
+.modal-overlay.show {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+.modal-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--primary-gradient);
+    color: white;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.close-modal {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.close-modal:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.notifications-list {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto;
+    max-height: 60vh;
+}
+
+.notification-item {
+    padding: 15px;
+    background: var(--hover-bg);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.notification-item:hover {
+    background: var(--card-bg);
+    transform: translateX(-5px);
+}
+
+.notification-item.unread {
+    background: rgba(24, 119, 242, 0.1);
+    border-color: var(--primary-color);
+}
+
+/* ========== الرسائل المنبثقة (Toast) ========== */
+#toastContainer {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast-notification {
+    padding: 15px 20px;
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    border-right: 4px solid var(--primary-color);
+    animation: slideInRight 0.3s ease;
+    min-width: 300px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+}
+
+.toast-notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast-notification.success {
+    border-color: var(--success-color);
+}
+
+.toast-notification.error {
+    border-color: var(--danger-color);
+}
+
+.toast-notification.info {
+    border-color: var(--info-color);
+}
+
+.toast-icon {
+    font-size: 20px;
+    color: var(--primary-color);
+}
+
+.toast-notification.success .toast-icon {
+    color: var(--success-color);
+}
+
+.toast-notification.error .toast-icon {
+    color: var(--danger-color);
+}
+
+.toast-notification.info .toast-icon {
+    color: var(--info-color);
+}
+
+.toast-content h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.toast-content p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+/* ========== نافذة تعديل المنشور ========== */
+.edit-modal-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.edit-modal-overlay.show {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.edit-modal {
+    background: var(--card-bg);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.edit-modal-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--primary-gradient);
+    color: white;
+}
+
+.edit-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.close-edit-modal {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.close-edit-modal:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.edit-modal-content {
+    padding: 20px;
+}
+
+.edit-input-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.edit-post-input {
+    width: 100%;
+    min-height: 120px;
+    max-height: 300px;
+    padding: 15px;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 16px;
+    color: var(--text-primary);
+    text-align: right;
+    resize: vertical;
+    line-height: 1.5;
+    font-family: inherit;
+    transition: all 0.2s;
+    background: var(--card-bg);
+}
+
+.edit-post-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.1);
+}
+
+.edit-char-count {
+    position: absolute;
+    left: 15px;
+    bottom: 10px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.edit-char-count.warning {
+    color: #ff6b6b;
+    font-weight: bold;
+}
+
+.edit-vote-options {
+    background: var(--vote-option-bg);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 2px dashed var(--border-color);
+    display: none;
+}
+
+.edit-vote-options.show {
+    display: block;
+}
+
+.edit-vote-option {
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.edit-vote-option input {
+    width: 100%;
+    border: none;
+    background: none;
+    font-size: 15px;
+    color: var(--text-primary);
+    text-align: right;
+    outline: none;
+    font-family: inherit;
+}
+
+.edit-vote-option input:focus {
+    color: var(--primary-color);
+}
+
+.edit-modal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.edit-modal-btn {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.edit-modal-btn.save {
+    background: var(--primary-color);
+    color: white;
+}
+
+.edit-modal-btn.save:hover {
+    background: #0d47a1;
+    transform: translateY(-2px);
+}
+
+.edit-modal-btn.cancel {
+    background: var(--hover-bg);
+    color: var(--text-secondary);
+}
+
+.edit-modal-btn.cancel:hover {
+    background: #e4e6e9;
+    transform: translateY(-2px);
+}
+
+/* ========== نافذة تأكيد الحذف ========== */
+.confirm-modal-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10001;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.confirm-modal-overlay.show {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.confirm-modal {
+    background: var(--card-bg);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 400px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.confirm-modal-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    margin: 30px auto 20px;
+    box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+}
+
+.confirm-modal-content {
+    padding: 0 30px 30px;
+}
+
+.confirm-modal-content h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.confirm-modal-content p {
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+.confirm-modal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.confirm-modal-btn {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.confirm-modal-btn.delete {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+    color: white;
+}
+
+.confirm-modal-btn.delete:hover {
+    background: #e53935;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+}
+
+.confirm-modal-btn.cancel {
+    background: var(--hover-bg);
+    color: var(--text-secondary);
+}
+
+.confirm-modal-btn.cancel:hover {
+    background: #e4e6e9;
+    transform: translateY(-2px);
+}
+
+/* ========== انتقالات النوافذ المنبثقة ========== */
+.edit-modal,
+.confirm-modal {
+    transform: translateY(20px) scale(0.95);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.edit-modal-overlay.show .edit-modal,
+.confirm-modal-overlay.show .confirm-modal {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+/* ========== التكيف مع الأجهزة المحمولة ========== */
+@media (max-width: 768px) {
+    .main-content {
+        margin: 70px auto 20px;
+        padding: 0 10px;
+    }
+    
+    .create-post-header {
+        padding: 15px;
+    }
+    
+    .post-card .post-header {
+        padding: 12px;
+    }
+    
+    .post-card .post-content {
+        padding: 12px;
+    }
+    
+    .post-card .comments-section {
+        padding: 12px;
+    }
+    
+    .modal, .edit-modal, .confirm-modal {
+        max-width: 95%;
+        margin: 10px;
+    }
+    
+    .bottom-nav {
+        height: 65px;
+    }
+    
+    .nav-item {
+        padding: 10px 0;
+        font-size: 11px;
+    }
+    
+    .nav-item i {
+        font-size: 18px;
+    }
+    
+    .header {
+        padding: 0 15px;
+    }
+    
+    .logo span {
+        font-size: 18px;
+    }
+    
+    .post-card .post-menu-dropdown {
+        position: fixed;
+        top: auto;
+        bottom: 80px;
+        left: 15px;
+        width: 160px;
+    }
+}
+
+@media (max-width: 480px) {
+    .post-type-selector {
+        flex-wrap: wrap;
+    }
+    
+    .post-type-btn {
+        flex: none;
+        width: calc(50% - 5px);
+    }
+    
+    .post-card .post-action-btn span {
+        display: none;
+    }
+    
+    .post-card .post-action-btn {
+        padding: 6px;
+    }
+    
+    .notification-bell {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .user-avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+    
+    .edit-modal, .confirm-modal {
+        max-width: 95%;
+        max-height: 85vh;
+        margin: 10px;
+    }
+    
+    .edit-modal-header h3, .confirm-modal-content h3 {
+        font-size: 16px;
+    }
+    
+    .edit-modal-btn, .confirm-modal-btn {
+        padding: 12px 10px;
+        font-size: 14px;
+    }
+    
+    .edit-post-input {
+        min-height: 100px;
+        font-size: 15px;
+        padding: 12px;
+    }
+    
+    .close-edit-modal {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+    
+    .edit-modal-actions, .confirm-modal-actions {
+        flex-direction: column;
+    }
+    
+    .confirm-modal-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+        margin: 20px auto 15px;
+    }
+}
+
+/* ========== تأثيرات الظهور ========== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* ========== تأثير النبض للإشعارات ========== */
+.pulse {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
