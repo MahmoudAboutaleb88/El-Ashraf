@@ -9,7 +9,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     
-    <!-- Font Awesome Icons -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -23,6 +23,7 @@
             --text-secondary: #65676b;
             --border-color: #dddfe2;
             --hover-bg: #f2f2f2;
+            --notification-badge: #ff6b6b;
         }
 
         * {
@@ -112,7 +113,7 @@
             font-size: 16px;
         }
 
-        /* Header Center - Navigation */
+        /* Header Center */
         .header-center {
             display: flex;
             align-items: center;
@@ -150,11 +151,205 @@
             border-radius: 2px;
         }
 
-        /* Header Right - User Menu */
+        /* Header Right */
         .header-right {
             display: flex;
             align-items: center;
             gap: 15px;
+        }
+
+        /* 🔔 Notification Bell Styles */
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+        
+        .notification-bell i {
+            font-size: 22px;
+            color: #65676b;
+            transition: all 0.3s;
+        }
+        
+        .notification-bell:hover i {
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+        
+        .notification-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--notification-badge);
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px;
+            border: 2px solid white;
+            z-index: 1001;
+            transition: all 0.3s;
+            display: none;
+        }
+        
+        .notification-count.pulse {
+            animation: pulse 0.5s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Notifications Dropdown */
+        .notifications-dropdown {
+            position: absolute;
+            top: 45px;
+            left: -250px;
+            width: 350px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: none;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .notification-bell:hover .notifications-dropdown {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .notifications-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .notifications-header h4 {
+            margin: 0;
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+        
+        .mark-all-read {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .mark-all-read:hover {
+            text-decoration: underline;
+        }
+        
+        .notifications-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .notification-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .notification-item:hover {
+            background: var(--hover-bg);
+        }
+        
+        .notification-item.unread {
+            background: #f0f8ff;
+            border-right: 3px solid var(--primary-color);
+        }
+        
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .notification-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 3px;
+            color: var(--text-primary);
+        }
+        
+        .notification-message {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            word-break: break-word;
+        }
+        
+        .notification-time {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+        
+        .no-notifications {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-secondary);
+        }
+        
+        .no-notifications i {
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: var(--border-color);
+            opacity: 0.5;
+        }
+        
+        .notifications-footer {
+            padding: 10px 15px;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .view-all-notifications {
+            color: var(--primary-color);
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .view-all-notifications:hover {
+            text-decoration: underline;
         }
 
         .user-menu {
@@ -337,6 +532,7 @@
             resize: none;
             min-height: 80px;
             transition: all 0.3s;
+            font-family: inherit;
         }
 
         .post-input:focus {
@@ -392,12 +588,21 @@
             font-size: 14px;
             cursor: pointer;
             transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .post-submit-btn:hover {
             background: #0d47a1;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+        }
+
+        .post-submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
         /* Posts Feed */
@@ -414,10 +619,16 @@
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             transition: all 0.3s;
+            animation: fadeIn 0.5s ease;
         }
 
         .post-card:hover {
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .post-header {
@@ -469,6 +680,7 @@
             line-height: 1.6;
             margin-bottom: 15px;
             white-space: pre-line;
+            word-break: break-word;
         }
 
         .post-stats {
@@ -557,6 +769,7 @@
             font-size: 14px;
             line-height: 1.4;
             margin-bottom: 5px;
+            word-break: break-word;
         }
 
         .comment-time {
@@ -585,6 +798,7 @@
             color: var(--text-primary);
             text-align: right;
             transition: all 0.3s;
+            font-family: inherit;
         }
 
         .comment-input:focus {
@@ -769,6 +983,91 @@
             font-weight: 500;
         }
 
+        /* Toast Notification */
+        .toast-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 9999;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            max-width: 350px;
+        }
+
+        .toast-notification.show {
+            transform: translateX(0);
+        }
+
+        .toast-notification.success {
+            border-right: 4px solid #42b72a;
+        }
+
+        .toast-notification.error {
+            border-right: 4px solid #ff6b6b;
+        }
+
+        .toast-notification.info {
+            border-right: 4px solid #1877f2;
+        }
+
+        .toast-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .toast-notification.success .toast-icon {
+            background: #e7f7e7;
+            color: #42b72a;
+        }
+
+        .toast-notification.error .toast-icon {
+            background: #ffebee;
+            color: #ff6b6b;
+        }
+
+        .toast-notification.info .toast-icon {
+            background: #e7f3ff;
+            color: #1877f2;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-content h4 {
+            font-size: 14px;
+            margin-bottom: 3px;
+            color: var(--text-primary);
+        }
+
+        .toast-content p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .close-toast {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+            margin-right: -5px;
+        }
+
         /* Responsive */
         @media (max-width: 1200px) {
             .main-container {
@@ -791,6 +1090,11 @@
             
             .search-container {
                 width: 200px;
+            }
+
+            .notifications-dropdown {
+                left: -200px;
+                width: 300px;
             }
         }
 
@@ -834,16 +1138,15 @@
             .post-actions {
                 justify-content: center;
             }
-        }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .post-card {
-            animation: fadeIn 0.5s ease;
+            .notifications-dropdown {
+                position: fixed;
+                top: 60px;
+                left: 10px;
+                right: 10px;
+                width: auto;
+                max-height: 70vh;
+            }
         }
 
         /* Scrollbar */
@@ -866,6 +1169,9 @@
     </style>
 </head>
 <body>
+    <!-- Toast Notification Container -->
+    <div id="toastContainer"></div>
+
     <!-- Header -->
     <header class="header">
         <div class="header-left">
@@ -898,9 +1204,29 @@
         </div>
         
         <div class="header-right">
-            <button class="menu-btn">
+            <!-- Notification Bell -->
+            <div class="notification-bell">
                 <i class="fas fa-bell"></i>
-            </button>
+                <span class="notification-count" id="notificationCount">0</span>
+                
+                <!-- Notifications Dropdown -->
+                <div class="notifications-dropdown" id="notificationsDropdown">
+                    <div class="notifications-header">
+                        <h4>الإشعارات</h4>
+                        <button class="mark-all-read" id="markAllRead">تحديد الكل كمقروء</button>
+                    </div>
+                    <div class="notifications-list" id="notificationsList">
+                        <div class="no-notifications">
+                            <i class="far fa-bell-slash"></i>
+                            <p>لا توجد إشعارات</p>
+                        </div>
+                    </div>
+                    <div class="notifications-footer">
+                        <a href="#" class="view-all-notifications" id="viewAllNotifications">عرض جميع الإشعارات</a>
+                    </div>
+                </div>
+            </div>
+            
             <button class="menu-btn">
                 <i class="fas fa-comment-dots"></i>
             </button>
@@ -987,7 +1313,7 @@
                         <textarea 
                             class="post-input" 
                             id="postInput" 
-                            placeholder="ماذا يدور في ذهنك ؟"
+                            placeholder="ماذا يدور في ذهنك يا أشراف؟"
                             rows="3"
                         ></textarea>
                     </div>
@@ -1010,8 +1336,9 @@
                     </div>
                     
                     <button class="post-submit-btn" id="submitPost">
+                        <i class="fas fa-bell"></i>
                         <i class="fas fa-paper-plane"></i>
-                        <span>نشر</span>
+                        <span>نشر وإشعار</span>
                     </button>
                 </div>
             </div>
@@ -1102,7 +1429,7 @@
     </div>
 
     <script>
-        // Firebase Configuration
+        // 🔥 Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAATHo2-310ZNkYpaT_zMFEcYVfmzkZUR4",
             databaseURL: "https://davinci-434f1-default-rtdb.firebaseio.com",
@@ -1122,7 +1449,7 @@
             throw new Error('يجب تسجيل الدخول أولاً');
         }
 
-        // DOM Elements
+        // 📱 DOM Elements
         const userAvatar = document.getElementById('userAvatar');
         const userName = document.getElementById('userName');
         const sidebarAvatar = document.getElementById('sidebarAvatar');
@@ -1135,7 +1462,346 @@
         const noPosts = document.getElementById('noPosts');
         const logoutBtn = document.getElementById('logoutBtn');
 
-        // Set user information
+        // 🎯 Notification System
+        class NotificationSystem {
+            constructor() {
+                this.currentUser = currentUser;
+                this.unreadCount = 0;
+                this.init();
+            }
+            
+            async init() {
+                if (!this.currentUser) return;
+                
+                // 1. طلب إذن إشعارات المتصفح
+                if ("Notification" in window && Notification.permission === "default") {
+                    Notification.requestPermission();
+                }
+                
+                // 2. تحميل الإشعارات الحالية
+                await this.loadNotifications();
+                
+                // 3. الاستماع للإشعارات الجديدة
+                this.setupRealtimeListener();
+                
+                // 4. تحديث العداد كل 30 ثانية
+                setInterval(() => this.updateUnreadCount(), 30000);
+                
+                console.log('🔔 نظام الإشعارات جاهز');
+            }
+            
+            async loadNotifications() {
+                const notificationsRef = database.ref(`notifications/${this.currentUser.phone}`);
+                
+                // جلب آخر 20 إشعار
+                notificationsRef.orderByChild('timestamp').limitToLast(20).once('value', (snapshot) => {
+                    const notifications = [];
+                    let unread = 0;
+                    
+                    snapshot.forEach((child) => {
+                        const notif = child.val();
+                        notif.id = child.key;
+                        notifications.unshift(notif); // الأحدث أولاً
+                        
+                        if (!notif.seen) unread++;
+                    });
+                    
+                    this.unreadCount = unread;
+                    this.updateUI(notifications);
+                });
+            }
+            
+            setupRealtimeListener() {
+                const notificationsRef = database.ref(`notifications/${this.currentUser.phone}`);
+                
+                // الاستماع للإشعارات الجديدة
+                notificationsRef.orderByChild('timestamp').limitToLast(1).on('child_added', (snapshot) => {
+                    const newNotif = snapshot.val();
+                    newNotif.id = snapshot.key;
+                    
+                    // زيادة العداد
+                    this.unreadCount++;
+                    this.updateCounter();
+                    
+                    // إظهار إشعار فوري
+                    this.showDesktopNotification(newNotif);
+                    
+                    // إضافة للقائمة
+                    this.addToNotificationsList(newNotif);
+                    
+                    // تشغيل صوت
+                    this.playNotificationSound();
+                    
+                    // إظهار toast notification
+                    this.showToastNotification(newNotif);
+                });
+            }
+            
+            showDesktopNotification(notification) {
+                if (!("Notification" in window) || Notification.permission !== "granted") return;
+                
+                const title = notification.title || "قبيلة الأشراف";
+                const body = notification.message || "منشور جديد";
+                
+                const notif = new Notification(title, {
+                    body: body,
+                    icon: "https://cdn-icons-png.flaticon.com/512/1077/1077114.png",
+                    tag: "ashraf-notification"
+                });
+                
+                notif.onclick = () => {
+                    window.focus();
+                    if (notification.postId) {
+                        this.scrollToPost(notification.postId);
+                    }
+                };
+                
+                setTimeout(() => notif.close(), 5000);
+            }
+            
+            playNotificationSound() {
+                try {
+                    const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3');
+                    audio.volume = 0.3;
+                    audio.play().catch(e => console.log('لا يمكن تشغيل الصوت'));
+                } catch (e) {
+                    console.log('خطأ في تشغيل الصوت:', e);
+                }
+            }
+            
+            updateUI(notifications) {
+                const list = document.getElementById('notificationsList');
+                const counter = document.getElementById('notificationCount');
+                
+                if (!list || !counter) return;
+                
+                // تحديث العداد
+                this.updateCounter();
+                
+                // تحديث القائمة
+                if (notifications.length === 0) {
+                    list.innerHTML = `
+                        <div class="no-notifications">
+                            <i class="far fa-bell-slash"></i>
+                            <p>لا توجد إشعارات</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                list.innerHTML = notifications.map(notif => `
+                    <div class="notification-item ${notif.seen ? '' : 'unread'}" data-id="${notif.id}">
+                        <div class="notification-icon">
+                            ${this.getNotificationIcon(notif.type)}
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">${this.getNotificationTitle(notif)}</div>
+                            <div class="notification-message">${notif.message || ''}</div>
+                            <div class="notification-time">${this.getTimeAgo(notif.timestamp)}</div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // إضافة مستمعين للنقر
+                document.querySelectorAll('.notification-item').forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        const notifId = e.currentTarget.dataset.id;
+                        this.markAsRead(notifId);
+                        
+                        const notif = notifications.find(n => n.id === notifId);
+                        if (notif && notif.postId) {
+                            this.scrollToPost(notif.postId);
+                        }
+                    });
+                });
+            }
+            
+            getNotificationIcon(type) {
+                const icons = {
+                    'new_post': '<i class="fas fa-pen"></i>',
+                    'like': '<i class="fas fa-heart"></i>',
+                    'comment': '<i class="fas fa-comment"></i>',
+                    'mention': '<i class="fas fa-at"></i>',
+                    'event': '<i class="fas fa-calendar"></i>'
+                };
+                return icons[type] || '<i class="fas fa-bell"></i>';
+            }
+            
+            getNotificationTitle(notif) {
+                const titles = {
+                    'new_post': 'منشور جديد',
+                    'like': 'إعجاب جديد',
+                    'comment': 'تعليق جديد',
+                    'mention': 'تم ذكرك',
+                    'event': 'حدث قادم'
+                };
+                return titles[notif.type] || 'إشعار جديد';
+            }
+            
+            getTimeAgo(timestamp) {
+                const seconds = Math.floor((Date.now() - timestamp) / 1000);
+                if (seconds < 60) return 'الآن';
+                if (seconds < 3600) return `قبل ${Math.floor(seconds / 60)} دقيقة`;
+                if (seconds < 86400) return `قبل ${Math.floor(seconds / 3600)} ساعة`;
+                return `قبل ${Math.floor(seconds / 86400)} يوم`;
+            }
+            
+            async markAsRead(notificationId) {
+                try {
+                    await database.ref(`notifications/${this.currentUser.phone}/${notificationId}`).update({
+                        seen: true,
+                        seenAt: Date.now()
+                    });
+                    
+                    if (this.unreadCount > 0) {
+                        this.unreadCount--;
+                        this.updateCounter();
+                    }
+                } catch (error) {
+                    console.error('❌ خطأ في تحديد الإشعار كمقروء:', error);
+                }
+            }
+            
+            async markAllAsRead() {
+                try {
+                    const notificationsRef = database.ref(`notifications/${this.currentUser.phone}`);
+                    const snapshot = await notificationsRef.once('value');
+                    
+                    const updates = {};
+                    snapshot.forEach((child) => {
+                        if (!child.val().seen) {
+                            updates[`${child.key}/seen`] = true;
+                            updates[`${child.key}/seenAt`] = Date.now();
+                        }
+                    });
+                    
+                    await notificationsRef.update(updates);
+                    
+                    this.unreadCount = 0;
+                    this.updateCounter();
+                    
+                    showToast('تم تحديد جميع الإشعارات كمقروءة', 'success');
+                } catch (error) {
+                    console.error('❌ خطأ في تحديد جميع الإشعارات:', error);
+                    showToast('حدث خطأ', 'error');
+                }
+            }
+            
+            updateCounter() {
+                const counter = document.getElementById('notificationCount');
+                if (counter) {
+                    counter.textContent = this.unreadCount > 99 ? '99+' : this.unreadCount;
+                    counter.style.display = this.unreadCount > 0 ? 'flex' : 'none';
+                    
+                    if (this.unreadCount > 0) {
+                        counter.classList.add('pulse');
+                        setTimeout(() => counter.classList.remove('pulse'), 300);
+                    }
+                }
+            }
+            
+            addToNotificationsList(notification) {
+                const list = document.getElementById('notificationsList');
+                if (!list) return;
+                
+                // إزالة رسالة "لا توجد إشعارات"
+                if (list.querySelector('.no-notifications')) {
+                    list.innerHTML = '';
+                }
+                
+                const notificationHTML = `
+                    <div class="notification-item unread" data-id="${notification.id}">
+                        <div class="notification-icon">
+                            ${this.getNotificationIcon(notification.type)}
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">${this.getNotificationTitle(notification)}</div>
+                            <div class="notification-message">${notification.message || ''}</div>
+                            <div class="notification-time">الآن</div>
+                        </div>
+                    </div>
+                `;
+                
+                // إضافة في الأعلى
+                list.innerHTML = notificationHTML + list.innerHTML;
+            }
+            
+            scrollToPost(postId) {
+                const postElement = document.querySelector(`.post-card[data-id="${postId}"]`);
+                if (postElement) {
+                    postElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // تأثير تمييز
+                    postElement.style.boxShadow = '0 0 0 3px #1877f2';
+                    setTimeout(() => {
+                        postElement.style.boxShadow = '';
+                    }, 2000);
+                }
+            }
+            
+            showToastNotification(notification) {
+                showToast(notification.message || 'إشعار جديد', 'info');
+            }
+            
+            async updateUnreadCount() {
+                if (!this.currentUser) return;
+                
+                try {
+                    const notificationsRef = database.ref(`notifications/${this.currentUser.phone}`);
+                    const snapshot = await notificationsRef.orderByChild('seen').equalTo(false).once('value');
+                    this.unreadCount = snapshot.numChildren();
+                    this.updateCounter();
+                } catch (error) {
+                    console.error('❌ خطأ في تحديث عداد الإشعارات:', error);
+                }
+            }
+        }
+
+        // ✨ Toast Notification Function
+        function showToast(message, type = 'info', duration = 5000) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            
+            const toastId = 'toast_' + Date.now();
+            const icons = {
+                success: '<i class="fas fa-check-circle"></i>',
+                error: '<i class="fas fa-exclamation-circle"></i>',
+                info: '<i class="fas fa-info-circle"></i>'
+            };
+            
+            const toast = document.createElement('div');
+            toast.id = toastId;
+            toast.className = `toast-notification ${type}`;
+            toast.innerHTML = `
+                <div class="toast-icon">${icons[type] || icons.info}</div>
+                <div class="toast-content">
+                    <h4>${type === 'success' ? 'نجاح' : type === 'error' ? 'خطأ' : 'ملاحظة'}</h4>
+                    <p>${message}</p>
+                </div>
+                <button class="close-toast" onclick="document.getElementById('${toastId}').remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            container.appendChild(toast);
+            
+            // إظهار مع تأثير
+            setTimeout(() => toast.classList.add('show'), 10);
+            
+            // إخفاء تلقائي بعد المدة
+            setTimeout(() => {
+                if (document.getElementById(toastId)) {
+                    toast.classList.remove('show');
+                    setTimeout(() => {
+                        if (document.getElementById(toastId)) {
+                            document.getElementById(toastId).remove();
+                        }
+                    }, 300);
+                }
+            }, duration);
+        }
+
+        // 📝 Set User Information
         function setUserInfo() {
             const firstLetter = currentUser.name.charAt(0);
             userAvatar.textContent = firstLetter;
@@ -1147,7 +1813,87 @@
             sidebarPhone.textContent = `+20${currentUser.phone}`;
         }
 
-        // Load posts from Firebase
+        // 📤 Publish Post with Notification
+        async function publishPostWithNotification(postText) {
+            try {
+                // 1. إنشاء المنشور
+                const postRef = database.ref('posts').push();
+                const postId = postRef.key;
+                
+                const postData = {
+                    id: postId,
+                    text: postText,
+                    authorId: currentUser.phone,
+                    authorName: currentUser.name,
+                    timestamp: Date.now(),
+                    likes: 0,
+                    comments: {}
+                };
+                
+                await postRef.set(postData);
+                console.log('✅ تم نشر المنشور:', postId);
+                
+                // 2. إرسال إشعار لجميع المستخدمين
+                await sendNotificationToAllUsers({
+                    type: 'new_post',
+                    title: 'منشور جديد في القبيلة!',
+                    message: `${currentUser.name} نشر: ${postText.length > 50 ? postText.substring(0, 50) + '...' : postText}`,
+                    postId: postId,
+                    authorName: currentUser.name,
+                    timestamp: Date.now()
+                });
+                
+                return { success: true, postId: postId };
+                
+            } catch (error) {
+                console.error('❌ خطأ في نشر المنشور:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        // 📢 Send Notification to All Users
+        async function sendNotificationToAllUsers(notificationData) {
+            try {
+                // 1. جلب جميع المستخدمين
+                const usersRef = database.ref('users');
+                const usersSnapshot = await usersRef.once('value');
+                
+                const notificationsPromises = [];
+                
+                // 2. إرسال إشعار لكل مستخدم (ماعدا الناشر نفسه)
+                usersSnapshot.forEach((userSnapshot) => {
+                    const userId = userSnapshot.key;
+                    
+                    // لا ترسل إشعار للناشر نفسه
+                    if (userId === currentUser.phone) return;
+                    
+                    const userNotificationRef = database.ref(`notifications/${userId}`).push();
+                    const notificationId = userNotificationRef.key;
+                    
+                    const fullNotification = {
+                        ...notificationData,
+                        id: notificationId,
+                        userId: userId,
+                        seen: false,
+                        timestamp: Date.now()
+                    };
+                    
+                    notificationsPromises.push(userNotificationRef.set(fullNotification));
+                });
+                
+                // 3. تنفيذ جميع عمليات الإشعار
+                await Promise.all(notificationsPromises);
+                
+                console.log(`📢 تم إرسال إشعار إلى ${usersSnapshot.numChildren() - 1} مستخدم`);
+                return true;
+                
+            } catch (error) {
+                console.error('❌ خطأ في إرسال الإشعارات:', error);
+                return false;
+            }
+        }
+
+        // 📥 Load Posts
         function loadPosts() {
             const postsRef = database.ref('posts');
             
@@ -1170,7 +1916,7 @@
             });
         }
 
-        // Render a single post
+        // 🎨 Render a Single Post
         function renderPost(post) {
             const postElement = document.createElement('div');
             postElement.className = 'post-card';
@@ -1246,7 +1992,7 @@
             addCommentInput(post.id);
         }
 
-        // Add comment input to post
+        // 💬 Add Comment Input
         function addCommentInput(postId) {
             const commentsSection = document.getElementById(`comments-${postId}`);
             
@@ -1269,7 +2015,7 @@
             
             commentsSection.innerHTML += commentInputHTML;
             
-            // Add event listener for comment button
+            // Add event listeners
             const commentSubmitBtn = commentsSection.querySelector('.comment-btn');
             const commentInput = commentsSection.querySelector('.comment-input');
             
@@ -1281,16 +2027,17 @@
             });
         }
 
-        // Load comments for a post
+        // 📝 Load Comments
         function loadComments(postId) {
             const commentsRef = database.ref(`posts/${postId}/comments`);
             
             commentsRef.orderByChild('timestamp').on('value', (snapshot) => {
                 const commentsSection = document.getElementById(`comments-${postId}`);
+                if (!commentsSection) return;
+                
+                // Remove existing comments except the input form
                 const existingComments = commentsSection.querySelectorAll('.comment');
                 existingComments.forEach(comment => comment.remove());
-                
-                const commentsDiv = commentsSection.querySelector('.add-comment')?.previousElementSibling;
                 
                 snapshot.forEach((childSnapshot) => {
                     const comment = childSnapshot.val();
@@ -1312,44 +2059,77 @@
             });
         }
 
-        // Add a new comment
-        function addComment(postId) {
+        // ❤️ Add Comment
+        async function addComment(postId) {
             const commentInput = document.querySelector(`.comment-input[data-post="${postId}"]`);
             const commentText = commentInput.value.trim();
             
             if (!commentText) return;
             
-            const comment = {
-                text: commentText,
-                authorId: currentUser.phone,
-                authorName: currentUser.name,
-                timestamp: Date.now()
-            };
-            
-            const commentRef = database.ref(`posts/${postId}/comments`).push();
-            commentRef.set(comment)
-                .then(() => {
-                    commentInput.value = '';
-                })
-                .catch((error) => {
-                    console.error('Error adding comment:', error);
-                    alert('حدث خطأ في إضافة التعليق');
-                });
-        }
-
-        // Toggle like on post
-        function toggleLike(postId) {
-            const postRef = database.ref(`posts/${postId}`);
-            
-            postRef.transaction((post) => {
-                if (post) {
-                    post.likes = (post.likes || 0) + 1;
+            try {
+                const comment = {
+                    text: commentText,
+                    authorId: currentUser.phone,
+                    authorName: currentUser.name,
+                    timestamp: Date.now()
+                };
+                
+                await database.ref(`posts/${postId}/comments`).push().set(comment);
+                commentInput.value = '';
+                
+                // Send notification to post author (if not the same user)
+                const postRef = database.ref(`posts/${postId}`);
+                const postSnapshot = await postRef.once('value');
+                const post = postSnapshot.val();
+                
+                if (post.authorId !== currentUser.phone) {
+                    await database.ref(`notifications/${post.authorId}`).push().set({
+                        type: 'comment',
+                        title: 'تعليق جديد على منشورك',
+                        message: `${currentUser.name} علق: ${commentText.substring(0, 50)}${commentText.length > 50 ? '...' : ''}`,
+                        postId: postId,
+                        timestamp: Date.now(),
+                        seen: false
+                    });
                 }
-                return post;
-            });
+                
+            } catch (error) {
+                console.error('❌ خطأ في إضافة التعليق:', error);
+                showToast('حدث خطأ في إضافة التعليق', 'error');
+            }
         }
 
-        // Focus on comment input
+        // 👍 Toggle Like
+        async function toggleLike(postId) {
+            try {
+                const postRef = database.ref(`posts/${postId}`);
+                
+                await postRef.transaction((post) => {
+                    if (post) {
+                        post.likes = (post.likes || 0) + 1;
+                        
+                        // Send notification to post author (if not the same user)
+                        if (post.authorId !== currentUser.phone) {
+                            database.ref(`notifications/${post.authorId}`).push().set({
+                                type: 'like',
+                                title: 'إعجاب جديد على منشورك',
+                                message: `${currentUser.name} أعجب بمنشورك`,
+                                postId: postId,
+                                timestamp: Date.now(),
+                                seen: false
+                            });
+                        }
+                    }
+                    return post;
+                });
+                
+            } catch (error) {
+                console.error('❌ خطأ في الإعجاب:', error);
+                showToast('حدث خطأ في الإعجاب', 'error');
+            }
+        }
+
+        // 🎯 Focus on Comment Input
         function focusComment(postId) {
             const commentInput = document.querySelector(`.comment-input[data-post="${postId}"]`);
             if (commentInput) {
@@ -1357,45 +2137,7 @@
             }
         }
 
-        // Create new post
-        submitPost.addEventListener('click', () => {
-            const postText = postInput.value.trim();
-            
-            if (!postText) {
-                alert('الرجاء كتابة محتوى المنشور');
-                return;
-            }
-            
-            const post = {
-                text: postText,
-                authorId: currentUser.phone,
-                authorName: currentUser.name,
-                timestamp: Date.now(),
-                likes: 0,
-                comments: {}
-            };
-            
-            const postRef = database.ref('posts').push();
-            postRef.set(post)
-                .then(() => {
-                    postInput.value = '';
-                    alert('تم نشر المنشور بنجاح!');
-                })
-                .catch((error) => {
-                    console.error('Error posting:', error);
-                    alert('حدث خطأ في نشر المنشور');
-                });
-        });
-
-        // Logout
-        logoutBtn.addEventListener('click', () => {
-            if (confirm('هل تريد تسجيل الخروج؟')) {
-                localStorage.removeItem('currentUser');
-                window.location.href = 'index.html';
-            }
-        });
-
-        // Helper functions
+        // 🕒 Get Time Ago
         function getTimeAgo(timestamp) {
             const seconds = Math.floor((Date.now() - timestamp) / 1000);
             
@@ -1407,18 +2149,33 @@
             return `قبل ${Math.floor(seconds / 31536000)} سنة`;
         }
 
+        // 🔒 Escape HTML
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
 
-        // Initialize
+        // 🚪 Logout
+        logoutBtn.addEventListener('click', () => {
+            if (confirm('هل تريد تسجيل الخروج؟')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            }
+        });
+
+        // 🎬 Initialize Everything
         document.addEventListener('DOMContentLoaded', () => {
+            // 1. Set user information
             setUserInfo();
+            
+            // 2. Load posts
             loadPosts();
             
-            // Set active navigation
+            // 3. Initialize notification system
+            window.notificationSystem = new NotificationSystem();
+            
+            // 4. Set up navigation
             const navBtns = document.querySelectorAll('.nav-btn');
             navBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -1426,8 +2183,57 @@
                     btn.classList.add('active');
                 });
             });
+            
+            // 5. Set up post submission
+            submitPost.addEventListener('click', async () => {
+                const postText = postInput.value.trim();
+                
+                if (!postText) {
+                    showToast('الرجاء كتابة محتوى المنشور', 'error');
+                    return;
+                }
+                
+                // Disable button and show loading
+                submitPost.disabled = true;
+                const originalHTML = submitPost.innerHTML;
+                submitPost.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري النشر...';
+                
+                // Publish with notification
+                const result = await publishPostWithNotification(postText);
+                
+                if (result.success) {
+                    postInput.value = '';
+                    showToast('تم نشر المنشور وإرسال الإشعار للجميع!', 'success');
+                } else {
+                    showToast(`خطأ: ${result.error}`, 'error');
+                }
+                
+                // Restore button
+                submitPost.innerHTML = originalHTML;
+                submitPost.disabled = false;
+            });
+            
+            // 6. Mark all as read button
+            document.getElementById('markAllRead')?.addEventListener('click', () => {
+                window.notificationSystem.markAllAsRead();
+            });
+            
+            // 7. Post input enter key
+            postInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    submitPost.click();
+                }
+            });
+            
+            console.log('🚀 الصفحة جاهزة للعمل!');
         });
+
+        // 🎵 Optional: Auto-logout after 24 hours
+        setTimeout(() => {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }, 24 * 60 * 60 * 1000);
     </script>
 </body>
-
 </html>
