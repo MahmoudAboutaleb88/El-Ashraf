@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>قبيلة الأشراف - الصفحة الرئيسية</title>
     
     <!-- Firebase -->
@@ -13,57 +13,58 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* Mobile-First Design */
         :root {
             --primary-color: #1877f2;
             --primary-gradient: linear-gradient(135deg, #1877f2 0%, #0d47a1 100%);
-            --secondary-color: #42b72a;
+            --like-color: #f91880;
+            --dislike-color: #666;
             --bg-color: #f0f2f5;
             --card-bg: #ffffff;
             --text-primary: #050505;
             --text-secondary: #65676b;
             --border-color: #dddfe2;
-            --hover-bg: #f2f2f2;
-            --notification-badge: #ff6b6b;
+            --hover-bg: #f5f5f5;
+            --vote-option-bg: #f8f9fa;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-primary);
             min-height: 100vh;
             direction: rtl;
+            padding-top: 60px;
+            padding-bottom: 80px;
+            overflow-x: hidden;
         }
 
-        /* Header */
+        /* Header - Mobile Optimized */
         .header {
             position: fixed;
             top: 0;
             right: 0;
             left: 0;
             background: var(--card-bg);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
             z-index: 1000;
-            padding: 0 20px;
+            padding: 0 15px;
             height: 60px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .logo {
-            font-size: 32px;
+            font-size: 24px;
             font-weight: 900;
             background: var(--primary-gradient);
             -webkit-background-clip: text;
@@ -71,299 +72,56 @@
             background-clip: text;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .logo i {
-            font-size: 36px;
+            font-size: 28px;
         }
 
-        .search-container {
-            position: relative;
-            width: 300px;
+        .logo span {
+            display: none;
         }
 
-        .search-input {
-            width: 100%;
-            padding: 12px 45px 12px 20px;
-            background: var(--hover-bg);
-            border: none;
-            border-radius: 50px;
-            font-size: 14px;
-            color: var(--text-primary);
-            text-align: right;
-            transition: all 0.3s;
+        @media (min-width: 400px) {
+            .logo span {
+                display: inline;
+            }
         }
 
-        .search-input:focus {
-            outline: none;
-            background: var(--card-bg);
-            box-shadow: 0 0 0 2px var(--primary-color);
-        }
-
-        .search-btn {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        /* Header Center */
-        .header-center {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .nav-btn {
-            padding: 15px 50px;
-            border: none;
-            background: transparent;
-            color: var(--text-secondary);
-            font-size: 22px;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .nav-btn:hover {
-            background: var(--hover-bg);
-        }
-
-        .nav-btn.active {
-            color: var(--primary-color);
-        }
-
-        .nav-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            right: 0;
-            left: 0;
-            height: 4px;
-            background: var(--primary-color);
-            border-radius: 2px;
-        }
-
-        /* Header Right */
         .header-right {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
-        /* 🔔 Notification Bell Styles */
         .notification-bell {
             position: relative;
             cursor: pointer;
-            margin-left: 15px;
         }
         
         .notification-bell i {
             font-size: 22px;
-            color: #65676b;
-            transition: all 0.3s;
-        }
-        
-        .notification-bell:hover i {
-            color: var(--primary-color);
-            transform: scale(1.1);
+            color: var(--text-secondary);
         }
         
         .notification-count {
             position: absolute;
-            top: -8px;
-            right: -8px;
-            background: var(--notification-badge);
+            top: -5px;
+            right: -5px;
+            background: #ff6b6b;
             color: white;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: bold;
-            min-width: 18px;
-            height: 18px;
+            min-width: 16px;
+            height: 16px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 2px;
             border: 2px solid white;
-            z-index: 1001;
-            transition: all 0.3s;
             display: none;
-        }
-        
-        .notification-count.pulse {
-            animation: pulse 0.5s ease-in-out;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-        
-        /* Notifications Dropdown */
-        .notifications-dropdown {
-            position: absolute;
-            top: 45px;
-            left: -250px;
-            width: 350px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            z-index: 1000;
-            display: none;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-        
-        .notification-bell:hover .notifications-dropdown {
-            display: block;
-            animation: slideDown 0.3s ease;
-        }
-        
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .notifications-header {
-            padding: 15px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .notifications-header h4 {
-            margin: 0;
-            font-size: 16px;
-            color: var(--text-primary);
-        }
-        
-        .mark-all-read {
-            background: none;
-            border: none;
-            color: var(--primary-color);
-            font-size: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .mark-all-read:hover {
-            text-decoration: underline;
-        }
-        
-        .notifications-list {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        
-        .notification-item {
-            padding: 12px 15px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .notification-item:hover {
-            background: var(--hover-bg);
-        }
-        
-        .notification-item.unread {
-            background: #f0f8ff;
-            border-right: 3px solid var(--primary-color);
-        }
-        
-        .notification-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--primary-gradient);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-        
-        .notification-content {
-            flex: 1;
-            min-width: 0;
-        }
-        
-        .notification-title {
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 3px;
-            color: var(--text-primary);
-        }
-        
-        .notification-message {
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.4;
-            word-break: break-word;
-        }
-        
-        .notification-time {
-            font-size: 11px;
-            color: var(--text-secondary);
-            margin-top: 5px;
-        }
-        
-        .no-notifications {
-            text-align: center;
-            padding: 30px;
-            color: var(--text-secondary);
-        }
-        
-        .no-notifications i {
-            font-size: 48px;
-            margin-bottom: 10px;
-            color: var(--border-color);
-            opacity: 0.5;
-        }
-        
-        .notifications-footer {
-            padding: 10px 15px;
-            text-align: center;
-            border-top: 1px solid var(--border-color);
-        }
-        
-        .view-all-notifications {
-            color: var(--primary-color);
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-        }
-        
-        .view-all-notifications:hover {
-            text-decoration: underline;
-        }
-
-        .user-menu {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 5px 15px 5px 5px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .user-menu:hover {
-            background: var(--hover-bg);
         }
 
         .user-avatar {
@@ -377,226 +135,240 @@
             justify-content: center;
             font-weight: bold;
             font-size: 18px;
-            border: 3px solid var(--card-bg);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--card-bg);
         }
 
-        .user-name {
-            font-weight: 600;
-            font-size: 14px;
-            max-width: 120px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .menu-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--hover-bg);
-            border: none;
-            color: var(--text-primary);
-            font-size: 18px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .menu-btn:hover {
-            background: #e4e6e9;
-        }
-
-        /* Main Container */
-        .main-container {
-            display: flex;
-            padding-top: 80px;
-            max-width: 1200px;
-            margin: 0 auto;
-            gap: 20px;
-        }
-
-        /* Left Sidebar */
-        .left-sidebar {
-            width: 280px;
-            flex-shrink: 0;
-            position: sticky;
-            top: 80px;
-            height: calc(100vh - 100px);
-            overflow-y: auto;
-            padding-bottom: 20px;
-        }
-
-        .sidebar-section {
+        /* Bottom Navigation - Mobile */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: 0;
             background: var(--card-bg);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .user-profile-card {
+            border-top: 1px solid var(--border-color);
             display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 12px;
-            padding: 15px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .user-profile-card .user-avatar {
-            width: 60px;
-            height: 60px;
-            font-size: 24px;
-        }
-
-        .profile-info h3 {
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-
-        .profile-info p {
-            font-size: 13px;
+            gap: 4px;
+            background: none;
+            border: none;
             color: var(--text-secondary);
-        }
-
-        .sidebar-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 15px;
-            border-radius: 8px;
+            font-size: 10px;
             cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 5px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.2s;
         }
 
-        .sidebar-item:hover {
-            background: var(--hover-bg);
-        }
-
-        .sidebar-item i {
+        .nav-item i {
             font-size: 20px;
+        }
+
+        .nav-item.active {
             color: var(--primary-color);
-            width: 28px;
-            text-align: center;
+            background: rgba(24, 119, 242, 0.1);
         }
 
-        .sidebar-item span {
+        .nav-item span {
             font-weight: 500;
-            font-size: 15px;
         }
 
-        .badge {
-            background: var(--primary-color);
-            color: white;
-            font-size: 12px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            margin-right: auto;
-            margin-left: 10px;
+        /* Main Content */
+        .main-content {
+            padding: 15px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        /* Main Feed */
-        .main-feed {
-            flex: 1;
-            min-width: 0;
-        }
-
-        /* Create Post */
+        /* Create Post - Mobile */
         .create-post {
             background: var(--card-bg);
-            border-radius: 10px;
-            padding: 20px;
+            border-radius: 15px;
+            padding: 15px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
         .create-post-header {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .post-type-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .post-type-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            background: white;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .post-type-btn.active {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: rgba(24, 119, 242, 0.05);
+        }
+
+        /* Post Input - Auto Expanding */
+        .post-input-container {
+            position: relative;
             margin-bottom: 15px;
         }
 
         .post-input {
             width: 100%;
-            padding: 15px 20px;
-            border: 1px solid var(--border-color);
-            border-radius: 25px;
+            min-height: 60px;
+            max-height: 200px;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
             background: var(--bg-color);
-            font-size: 15px;
+            font-size: 16px;
             color: var(--text-primary);
             text-align: right;
             resize: none;
-            min-height: 80px;
-            transition: all 0.3s;
+            line-height: 1.5;
             font-family: inherit;
+            transition: all 0.2s;
+            overflow-y: auto;
         }
 
         .post-input:focus {
             outline: none;
             border-color: var(--primary-color);
-            background: var(--card-bg);
+            background: white;
+        }
+
+        .post-input::placeholder {
+            color: #999;
+        }
+
+        /* Vote Options Container */
+        .vote-options-container {
+            background: var(--vote-option-bg);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 2px dashed var(--border-color);
+            display: none;
+        }
+
+        .vote-options-container.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .vote-option {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .vote-option:hover {
+            border-color: var(--primary-color);
+        }
+
+        .vote-option.selected {
+            border-color: var(--primary-color);
+            background: rgba(24, 119, 242, 0.05);
+        }
+
+        .vote-option input {
+            width: 100%;
+            border: none;
+            background: none;
+            font-size: 15px;
+            color: var(--text-primary);
+            text-align: right;
+            outline: none;
+        }
+
+        .vote-option input::placeholder {
+            color: #999;
+        }
+
+        .add-option-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .add-option-btn:hover {
+            background: #0d47a1;
         }
 
         .post-actions {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            gap: 10px;
             margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .media-btns {
-            display: flex;
-            gap: 15px;
-        }
-
-        .media-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 15px;
-            border: none;
-            background: var(--hover-bg);
-            border-radius: 20px;
-            color: var(--text-secondary);
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .media-btn:hover {
-            background: #e4e6e9;
-        }
-
-        .media-btn i {
-            font-size: 18px;
         }
 
         .post-submit-btn {
+            flex: 1;
             background: var(--primary-color);
             color: white;
             border: none;
-            padding: 10px 30px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 14px;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
         }
 
         .post-submit-btn:hover {
             background: #0d47a1;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
         }
 
         .post-submit-btn:disabled {
@@ -609,44 +381,33 @@
         .posts-feed {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
         }
 
         /* Post Card */
         .post-card {
             background: var(--card-bg);
-            border-radius: 10px;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .post-card:hover {
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.3s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .post-header {
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .post-author {
+            padding: 15px;
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
         .author-avatar {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             background: var(--primary-gradient);
             color: white;
@@ -654,25 +415,36 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 20px;
+            font-size: 18px;
+        }
+
+        .author-info {
+            flex: 1;
         }
 
         .author-info h4 {
             font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 3px;
+            font-weight: 700;
+            margin-bottom: 2px;
         }
 
         .post-time {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 5px;
+        }
+
+        .post-type-badge {
+            background: var(--primary-color);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-right: 5px;
         }
 
         .post-content {
-            padding: 0 20px 20px;
+            padding: 0 15px 15px;
         }
 
         .post-text {
@@ -683,20 +455,95 @@
             word-break: break-word;
         }
 
-        .post-stats {
-            padding: 12px 20px;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
+        /* Vote Post Style */
+        .vote-post {
+            padding: 15px;
+            background: var(--vote-option-bg);
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .vote-post h5 {
+            font-size: 14px;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .vote-option-result {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vote-option-result:hover {
+            border-color: var(--primary-color);
+        }
+
+        .vote-option-result.selected {
+            border-color: var(--primary-color);
+            background: rgba(24, 119, 242, 0.05);
+        }
+
+        .vote-bar {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: rgba(24, 119, 242, 0.1);
+            border-radius: 8px;
+            z-index: 0;
+            transition: width 0.3s ease;
+        }
+
+        .vote-content {
+            position: relative;
+            z-index: 1;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+        }
+
+        .vote-text {
+            flex: 1;
             font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .vote-percentage {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary-color);
+            min-width: 40px;
+            text-align: left;
+        }
+
+        .vote-count {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        .post-stats {
+            padding: 12px 15px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
             color: var(--text-secondary);
             background: var(--bg-color);
         }
 
+        /* Post Actions - Like/Dislike */
         .post-actions-bar {
             display: flex;
-            padding: 5px;
+            padding: 0;
+            border-top: 1px solid var(--border-color);
         }
 
         .post-action-btn {
@@ -705,28 +552,36 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            padding: 12px;
+            padding: 12px 5px;
             border: none;
             background: transparent;
             color: var(--text-secondary);
             font-weight: 600;
             font-size: 14px;
             cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.3s;
+            transition: all 0.2s;
+            position: relative;
         }
 
-        .post-action-btn:hover {
-            background: var(--hover-bg);
+        .post-action-btn:active {
+            transform: scale(0.95);
         }
 
         .post-action-btn.liked {
-            color: #f91880;
+            color: var(--like-color);
+        }
+
+        .post-action-btn.disliked {
+            color: var(--dislike-color);
+        }
+
+        .post-action-btn i {
+            font-size: 18px;
         }
 
         /* Comments Section */
         .comments-section {
-            padding: 15px 20px;
+            padding: 15px;
             background: var(--bg-color);
             border-top: 1px solid var(--border-color);
         }
@@ -734,12 +589,12 @@
         .comment {
             display: flex;
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .comment-avatar {
-            width: 35px;
-            height: 35px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             background: var(--primary-gradient);
             color: white;
@@ -747,40 +602,43 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 12px;
             flex-shrink: 0;
+            margin-top: 2px;
         }
 
         .comment-content {
             flex: 1;
-            background: var(--card-bg);
-            padding: 12px 15px;
-            border-radius: 15px;
+            background: white;
+            padding: 10px 12px;
+            border-radius: 12px;
             border-top-right-radius: 0;
         }
 
         .comment-author {
             font-weight: 600;
-            font-size: 13px;
-            margin-bottom: 5px;
+            font-size: 12px;
+            margin-bottom: 4px;
         }
 
         .comment-text {
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.4;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
             word-break: break-word;
         }
 
         .comment-time {
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-secondary);
         }
 
+        /* Add Comment - Auto Expanding */
         .add-comment {
             display: flex;
             gap: 10px;
             margin-top: 15px;
+            align-items: flex-end;
         }
 
         .comment-input-container {
@@ -790,15 +648,20 @@
 
         .comment-input {
             width: 100%;
-            padding: 12px 50px 12px 20px;
-            border: 1px solid var(--border-color);
-            border-radius: 25px;
-            background: var(--card-bg);
+            min-height: 44px;
+            max-height: 120px;
+            padding: 10px 45px 10px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 22px;
+            background: white;
             font-size: 14px;
             color: var(--text-primary);
             text-align: right;
-            transition: all 0.3s;
+            resize: none;
+            line-height: 1.4;
             font-family: inherit;
+            transition: all 0.2s;
+            overflow-y: auto;
         }
 
         .comment-input:focus {
@@ -808,239 +671,59 @@
 
         .comment-btn {
             position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
+            left: 8px;
+            bottom: 8px;
             background: var(--primary-color);
             color: white;
             border: none;
-            width: 35px;
-            height: 35px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
         .comment-btn:hover {
             background: #0d47a1;
         }
 
-        /* Right Sidebar */
-        .right-sidebar {
-            width: 320px;
-            flex-shrink: 0;
-            position: sticky;
-            top: 80px;
-            height: calc(100vh - 100px);
-            overflow-y: auto;
-            padding-bottom: 20px;
-        }
-
-        .birthdays {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 15px;
-            background: var(--card-bg);
-            border-radius: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .birthdays i {
-            color: #ff6b6b;
-            font-size: 24px;
-        }
-
-        .birthdays span {
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .events-list {
-            background: var(--card-bg);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .events-list h3 {
-            font-size: 16px;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-primary);
-        }
-
-        .event-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 8px;
-        }
-
-        .event-item:hover {
-            background: var(--hover-bg);
-        }
-
-        .event-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background: var(--primary-gradient);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-
-        .event-info h4 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 3px;
-        }
-
-        .event-info p {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        /* Online Members */
-        .online-members {
-            background: var(--card-bg);
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .online-members h3 {
-            font-size: 16px;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-primary);
-        }
-
-        .member-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 8px;
-        }
-
-        .member-item:hover {
-            background: var(--hover-bg);
-        }
-
-        .member-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--primary-gradient);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 16px;
-            position: relative;
-        }
-
-        .online-status {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 12px;
-            height: 12px;
-            background: var(--secondary-color);
-            border: 2px solid var(--card-bg);
-            border-radius: 50%;
-        }
-
-        .member-info h4 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 3px;
-        }
-
-        .member-info p {
-            font-size: 12px;
-            color: var(--secondary-color);
-            font-weight: 500;
-        }
-
-        /* Toast Notification */
+        /* Toast Notifications */
         .toast-notification {
             position: fixed;
             top: 20px;
-            right: 20px;
+            right: 15px;
+            left: 15px;
             background: white;
-            border-radius: 10px;
-            padding: 15px 20px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            z-index: 9999;
+            transform: translateY(-100px);
+            transition: transform 0.3s ease;
             display: flex;
             align-items: center;
             gap: 12px;
-            z-index: 9999;
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
-            max-width: 350px;
+            border-right: 4px solid var(--primary-color);
         }
 
         .toast-notification.show {
-            transform: translateX(0);
-        }
-
-        .toast-notification.success {
-            border-right: 4px solid #42b72a;
-        }
-
-        .toast-notification.error {
-            border-right: 4px solid #ff6b6b;
-        }
-
-        .toast-notification.info {
-            border-right: 4px solid #1877f2;
+            transform: translateY(0);
         }
 
         .toast-icon {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
+            background: rgba(24, 119, 242, 0.1);
+            color: var(--primary-color);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        .toast-notification.success .toast-icon {
-            background: #e7f7e7;
-            color: #42b72a;
-        }
-
-        .toast-notification.error .toast-icon {
-            background: #ffebee;
-            color: #ff6b6b;
-        }
-
-        .toast-notification.info .toast-icon {
-            background: #e7f3ff;
-            color: #1877f2;
+            font-size: 16px;
         }
 
         .toast-content {
@@ -1058,375 +741,261 @@
             color: var(--text-secondary);
         }
 
-        .close-toast {
+        /* Empty State */
+        .no-posts {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .no-posts i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: var(--border-color);
+            opacity: 0.5;
+        }
+
+        .no-posts h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .no-posts p {
+            font-size: 14px;
+        }
+
+        /* Modal for Notifications */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+            color: var(--text-primary);
+        }
+
+        .close-modal {
             background: none;
             border: none;
+            font-size: 20px;
             color: var(--text-secondary);
             cursor: pointer;
-            font-size: 18px;
             padding: 5px;
-            margin-right: -5px;
         }
 
         /* Responsive */
-        @media (max-width: 1200px) {
-            .main-container {
-                padding: 80px 15px 20px;
+        @media (min-width: 768px) {
+            body {
+                padding-top: 70px;
+                padding-bottom: 0;
             }
             
-            .right-sidebar {
-                display: none;
-            }
-        }
-
-        @media (max-width: 900px) {
-            .left-sidebar {
-                display: none;
-            }
-            
-            .header-center {
-                display: none;
-            }
-            
-            .search-container {
-                width: 200px;
-            }
-
-            .notifications-dropdown {
-                left: -200px;
-                width: 300px;
-            }
-        }
-
-        @media (max-width: 600px) {
             .header {
-                padding: 0 10px;
+                padding: 0 20px;
+                height: 70px;
             }
             
-            .logo span {
+            .logo {
+                font-size: 28px;
+            }
+            
+            .logo i {
+                font-size: 32px;
+            }
+            
+            .bottom-nav {
                 display: none;
             }
             
-            .search-container {
-                width: 40px;
+            .main-content {
+                padding: 20px;
             }
             
-            .search-input {
-                display: none;
+            .create-post {
+                padding: 20px;
             }
             
-            .search-btn {
-                position: static;
-                transform: none;
-                background: var(--hover-bg);
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            
-            .user-name {
-                display: none;
-            }
-            
-            .media-btns {
-                display: none;
-            }
-            
-            .post-actions {
-                justify-content: center;
-            }
-
-            .notifications-dropdown {
-                position: fixed;
-                top: 60px;
-                left: 10px;
-                right: 10px;
-                width: auto;
-                max-height: 70vh;
+            .post-card {
+                border-radius: 20px;
             }
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        /* Safe Area for Notch Phones */
+        @supports (padding: max(0px)) {
+            .header {
+                padding-top: max(15px, env(safe-area-inset-top));
+                padding-right: max(15px, env(safe-area-inset-right));
+                padding-left: max(15px, env(safe-area-inset-left));
+            }
+            
+            .bottom-nav {
+                padding-bottom: max(10px, env(safe-area-inset-bottom));
+            }
         }
 
-        ::-webkit-scrollbar-track {
-            background: var(--bg-color);
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: #bcc0c4;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a4a8ad;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <!-- Toast Notification Container -->
+    <!-- Toast Container -->
     <div id="toastContainer"></div>
+
+    <!-- Notifications Modal -->
+    <div class="modal-overlay" id="notificationsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>الإشعارات</h3>
+                <button class="close-modal" id="closeNotificationsModal">✕</button>
+            </div>
+            <div class="notifications-list" id="modalNotificationsList">
+                <!-- Notifications will be loaded here -->
+            </div>
+        </div>
+    </div>
 
     <!-- Header -->
     <header class="header">
-        <div class="header-left">
-            <div class="logo">
-                <i class="fas fa-crown"></i>
-                <span>قبيلة الأشراف</span>
-            </div>
-            
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="ابحث في القبيلة...">
-                <button class="search-btn">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </div>
-        
-        <div class="header-center">
-            <button class="nav-btn active">
-                <i class="fas fa-home"></i>
-            </button>
-            <button class="nav-btn">
-                <i class="fas fa-user-friends"></i>
-            </button>
-            <button class="nav-btn">
-                <i class="fas fa-tv"></i>
-            </button>
-            <button class="nav-btn">
-                <i class="fas fa-users"></i>
-            </button>
+        <div class="logo">
+            <i class="fas fa-crown"></i>
+            <span>قبيلة الأشراف</span>
         </div>
         
         <div class="header-right">
-            <!-- Notification Bell -->
-            <div class="notification-bell">
+            <div class="notification-bell" id="notificationBell">
                 <i class="fas fa-bell"></i>
                 <span class="notification-count" id="notificationCount">0</span>
-                
-                <!-- Notifications Dropdown -->
-                <div class="notifications-dropdown" id="notificationsDropdown">
-                    <div class="notifications-header">
-                        <h4>الإشعارات</h4>
-                        <button class="mark-all-read" id="markAllRead">تحديد الكل كمقروء</button>
-                    </div>
-                    <div class="notifications-list" id="notificationsList">
-                        <div class="no-notifications">
-                            <i class="far fa-bell-slash"></i>
-                            <p>لا توجد إشعارات</p>
-                        </div>
-                    </div>
-                    <div class="notifications-footer">
-                        <a href="#" class="view-all-notifications" id="viewAllNotifications">عرض جميع الإشعارات</a>
-                    </div>
-                </div>
             </div>
             
-            <button class="menu-btn">
-                <i class="fas fa-comment-dots"></i>
-            </button>
-            <button class="menu-btn" id="logoutBtn">
-                <i class="fas fa-sign-out-alt"></i>
-            </button>
-            
-            <div class="user-menu" id="userMenu">
-                <div class="user-avatar" id="userAvatar">أ</div>
-                <div class="user-name" id="userName">أحمد محمد</div>
-            </div>
+            <div class="user-avatar" id="userAvatar">أ</div>
         </div>
     </header>
 
-    <!-- Main Container -->
-    <div class="main-container">
-        <!-- Left Sidebar -->
-        <div class="left-sidebar">
-            <div class="sidebar-section">
-                <div class="user-profile-card">
-                    <div class="user-avatar" id="sidebarAvatar">أ</div>
-                    <div class="profile-info">
-                        <h3 id="sidebarName">أحمد محمد</h3>
-                        <p id="sidebarPhone">+201012345678</p>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Create Post -->
+        <div class="create-post">
+            <div class="create-post-header">
+                <div class="user-avatar" id="postAvatar">أ</div>
+                <div style="flex: 1;">
+                    <div class="post-type-selector">
+                        <button class="post-type-btn active" data-type="text">
+                            <i class="fas fa-pen"></i>
+                            <span>نص</span>
+                        </button>
+                        <button class="post-type-btn" data-type="vote">
+                            <i class="fas fa-poll"></i>
+                            <span>تصويت</span>
+                        </button>
                     </div>
-                </div>
-                
-                <div class="sidebar-item">
-                    <i class="fas fa-user-friends"></i>
-                    <span>الأصدقاء</span>
-                    <span class="badge">12</span>
-                </div>
-                <div class="sidebar-item">
-                    <i class="fas fa-history"></i>
-                    <span>الذكريات</span>
-                </div>
-                <div class="sidebar-item">
-                    <i class="fas fa-save"></i>
-                    <span>المحفوظات</span>
-                </div>
-                <div class="sidebar-item">
-                    <i class="fas fa-flag"></i>
-                    <span>الصفحات</span>
-                </div>
-                <div class="sidebar-item">
-                    <i class="fas fa-calendar"></i>
-                    <span>الأحداث</span>
-                    <span class="badge">3</span>
-                </div>
-                <div class="sidebar-item">
-                    <i class="fas fa-tree"></i>
-                    <span>شجرة العائلة</span>
-                </div>
-                <div class="sidebar-item">
-                    <i class="fas fa-book"></i>
-                    <span>أنساب الأشراف</span>
-                </div>
-            </div>
-            
-            <div class="sidebar-section">
-                <h3 style="margin-bottom: 15px; font-size: 16px; color: var(--text-primary);">المجموعات</h3>
-                <div class="sidebar-item">
-                    <i class="fas fa-users" style="color: #42b72a;"></i>
-                    <span>شباب القبيلة</span>
-                </div>
-                <div class="sidebar-item">
-                    <i class="fas fa-users" style="color: #1877f2;"></i>
-                    <span>كبار العائلة</span>
-                </div>
-                <div class="sidebar-item">
-                    <i class="fas fa-users" style="color: #ff6b6b;"></i>
-                    <span>الزواجات الجديدة</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Main Feed -->
-        <div class="main-feed">
-            <!-- Create Post -->
-            <div class="create-post">
-                <div class="create-post-header">
-                    <div class="user-avatar" id="postAvatar">أ</div>
-                    <div style="flex: 1;">
+                    
+                    <div class="post-input-container">
                         <textarea 
                             class="post-input" 
                             id="postInput" 
                             placeholder="ماذا يدور في ذهنك يا أشراف؟"
-                            rows="3"
+                            rows="1"
                         ></textarea>
                     </div>
-                </div>
-                
-                <div class="post-actions">
-                    <div class="media-btns">
-                        <button class="media-btn">
-                            <i class="fas fa-images" style="color: #42b72a;"></i>
-                            <span>صورة/فيديو</span>
-                        </button>
-                        <button class="media-btn">
-                            <i class="fas fa-user-tag" style="color: #1877f2;"></i>
-                            <span>وسم شخص</span>
-                        </button>
-                        <button class="media-btn">
-                            <i class="fas fa-smile" style="color: #f7b928;"></i>
-                            <span>مشاعر</span>
-                        </button>
-                    </div>
                     
-                    <button class="post-submit-btn" id="submitPost">
-                        <i class="fas fa-bell"></i>
-                        <i class="fas fa-paper-plane"></i>
-                        <span>نشر وإشعار</span>
-                    </button>
+                    <!-- Vote Options -->
+                    <div class="vote-options-container" id="voteOptionsContainer">
+                        <div class="vote-option">
+                            <input type="text" placeholder="الخيار الأول" class="vote-option-input">
+                        </div>
+                        <div class="vote-option">
+                            <input type="text" placeholder="الخيار الثاني" class="vote-option-input">
+                        </div>
+                        <button class="add-option-btn" id="addOptionBtn">
+                            <i class="fas fa-plus"></i>
+                            <span>إضافة خيار</span>
+                        </button>
+                    </div>
                 </div>
             </div>
             
-            <!-- Posts Feed -->
-            <div class="posts-feed" id="postsContainer">
-                <!-- Posts will be loaded here dynamically -->
-                <div class="no-posts" id="noPosts" style="text-align: center; padding: 40px; color: var(--text-secondary); display: none;">
-                    <i class="fas fa-comments" style="font-size: 48px; margin-bottom: 15px; color: var(--border-color);"></i>
-                    <h3>لا توجد منشورات بعد</h3>
-                    <p>كن أول من ينشر في القبيلة!</p>
-                </div>
+            <div class="post-actions">
+                <button class="post-submit-btn" id="submitPost">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>نشر</span>
+                </button>
             </div>
         </div>
-        
-        <!-- Right Sidebar -->
-        <div class="right-sidebar">
-            <div class="birthdays">
-                <i class="fas fa-birthday-cake"></i>
-                <span>عيد ميلاد أحمد اليوم</span>
-            </div>
-            
-            <div class="events-list">
-                <h3>الأحداث القادمة</h3>
-                <div class="event-item">
-                    <div class="event-icon">
-                        <i class="fas fa-ring"></i>
-                    </div>
-                    <div class="event-info">
-                        <h4>زفاف محمد</h4>
-                        <p>الجمعة 15 ديسمبر</p>
-                    </div>
-                </div>
-                <div class="event-item">
-                    <div class="event-icon">
-                        <i class="fas fa-utensils"></i>
-                    </div>
-                    <div class="event-info">
-                        <h4>وليمة العائلة</h4>
-                        <p>السبت 16 ديسمبر</p>
-                    </div>
-                </div>
-                <div class="event-item">
-                    <div class="event-icon">
-                        <i class="fas fa-book"></i>
-                    </div>
-                    <div class="event-info">
-                        <h4>محاضرة الأنساب</h4>
-                        <p>الأحد 17 ديسمبر</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="online-members">
-                <h3>الأعضاء المتصلون</h3>
-                <div class="member-item">
-                    <div class="member-avatar">
-                        <span>م</span>
-                        <div class="online-status"></div>
-                    </div>
-                    <div class="member-info">
-                        <h4>محمد أحمد</h4>
-                        <p>متصل الآن</p>
-                    </div>
-                </div>
-                <div class="member-item">
-                    <div class="member-avatar">
-                        <span>س</span>
-                        <div class="online-status"></div>
-                    </div>
-                    <div class="member-info">
-                        <h4>سارة محمد</h4>
-                        <p>متصل الآن</p>
-                    </div>
-                </div>
-                <div class="member-item">
-                    <div class="member-avatar">
-                        <span>خ</span>
-                        <div class="online-status"></div>
-                    </div>
-                    <div class="member-info">
-                        <h4>خالد علي</h4>
-                        <p>متصل الآن</p>
-                    </div>
-                </div>
-            </div>
+
+        <!-- Posts Feed -->
+        <div class="posts-feed" id="postsContainer">
+            <!-- Posts will be loaded here -->
         </div>
-    </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <button class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>الرئيسية</span>
+        </button>
+        <button class="nav-item">
+            <i class="fas fa-users"></i>
+            <span>المجموعات</span>
+        </button>
+        <button class="nav-item">
+            <i class="fas fa-plus-circle"></i>
+            <span>نشر</span>
+        </button>
+        <button class="nav-item">
+            <i class="fas fa-bell"></i>
+            <span>إشعارات</span>
+        </button>
+        <button class="nav-item" id="logoutBtnNav">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>خروج</span>
+        </button>
+    </nav>
 
     <script>
         // 🔥 Firebase Configuration
@@ -1451,449 +1020,85 @@
 
         // 📱 DOM Elements
         const userAvatar = document.getElementById('userAvatar');
-        const userName = document.getElementById('userName');
-        const sidebarAvatar = document.getElementById('sidebarAvatar');
-        const sidebarName = document.getElementById('sidebarName');
-        const sidebarPhone = document.getElementById('sidebarPhone');
         const postAvatar = document.getElementById('postAvatar');
         const postInput = document.getElementById('postInput');
         const submitPost = document.getElementById('submitPost');
         const postsContainer = document.getElementById('postsContainer');
-        const noPosts = document.getElementById('noPosts');
-        const logoutBtn = document.getElementById('logoutBtn');
+        const postTypeButtons = document.querySelectorAll('.post-type-btn');
+        const voteOptionsContainer = document.getElementById('voteOptionsContainer');
+        const voteOptionInputs = document.querySelectorAll('.vote-option-input');
+        const addOptionBtn = document.getElementById('addOptionBtn');
+        const notificationBell = document.getElementById('notificationBell');
+        const notificationCount = document.getElementById('notificationCount');
+        const logoutBtnNav = document.getElementById('logoutBtnNav');
 
-        // 🎯 Notification System
-        class NotificationSystem {
-            constructor() {
-                this.currentUser = currentUser;
-                this.unreadCount = 0;
-                this.init();
-            }
-            
-            async init() {
-                if (!this.currentUser) return;
-                
-                // 1. طلب إذن إشعارات المتصفح
-                if ("Notification" in window && Notification.permission === "default") {
-                    Notification.requestPermission();
-                }
-                
-                // 2. تحميل الإشعارات الحالية
-                await this.loadNotifications();
-                
-                // 3. الاستماع للإشعارات الجديدة
-                this.setupRealtimeListener();
-                
-                // 4. تحديث العداد كل 30 ثانية
-                setInterval(() => this.updateUnreadCount(), 30000);
-                
-                console.log('🔔 نظام الإشعارات جاهز');
-            }
-            
-            async loadNotifications() {
-                const notificationsRef = database.ref(`notifications/${this.currentUser.phone}`);
-                
-                // جلب آخر 20 إشعار
-                notificationsRef.orderByChild('timestamp').limitToLast(20).once('value', (snapshot) => {
-                    const notifications = [];
-                    let unread = 0;
-                    
-                    snapshot.forEach((child) => {
-                        const notif = child.val();
-                        notif.id = child.key;
-                        notifications.unshift(notif); // الأحدث أولاً
-                        
-                        if (!notif.seen) unread++;
-                    });
-                    
-                    this.unreadCount = unread;
-                    this.updateUI(notifications);
-                });
-            }
-            
-            setupRealtimeListener() {
-                const notificationsRef = database.ref(`notifications/${this.currentUser.phone}`);
-                
-                // الاستماع للإشعارات الجديدة
-                notificationsRef.orderByChild('timestamp').limitToLast(1).on('child_added', (snapshot) => {
-                    const newNotif = snapshot.val();
-                    newNotif.id = snapshot.key;
-                    
-                    // زيادة العداد
-                    this.unreadCount++;
-                    this.updateCounter();
-                    
-                    // إظهار إشعار فوري
-                    this.showDesktopNotification(newNotif);
-                    
-                    // إضافة للقائمة
-                    this.addToNotificationsList(newNotif);
-                    
-                    // تشغيل صوت
-                    this.playNotificationSound();
-                    
-                    // إظهار toast notification
-                    this.showToastNotification(newNotif);
-                });
-            }
-            
-            showDesktopNotification(notification) {
-                if (!("Notification" in window) || Notification.permission !== "granted") return;
-                
-                const title = notification.title || "قبيلة الأشراف";
-                const body = notification.message || "منشور جديد";
-                
-                const notif = new Notification(title, {
-                    body: body,
-                    icon: "https://cdn-icons-png.flaticon.com/512/1077/1077114.png",
-                    tag: "ashraf-notification"
-                });
-                
-                notif.onclick = () => {
-                    window.focus();
-                    if (notification.postId) {
-                        this.scrollToPost(notification.postId);
-                    }
-                };
-                
-                setTimeout(() => notif.close(), 5000);
-            }
-            
-            playNotificationSound() {
-                try {
-                    const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3');
-                    audio.volume = 0.3;
-                    audio.play().catch(e => console.log('لا يمكن تشغيل الصوت'));
-                } catch (e) {
-                    console.log('خطأ في تشغيل الصوت:', e);
-                }
-            }
-            
-            updateUI(notifications) {
-                const list = document.getElementById('notificationsList');
-                const counter = document.getElementById('notificationCount');
-                
-                if (!list || !counter) return;
-                
-                // تحديث العداد
-                this.updateCounter();
-                
-                // تحديث القائمة
-                if (notifications.length === 0) {
-                    list.innerHTML = `
-                        <div class="no-notifications">
-                            <i class="far fa-bell-slash"></i>
-                            <p>لا توجد إشعارات</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                list.innerHTML = notifications.map(notif => `
-                    <div class="notification-item ${notif.seen ? '' : 'unread'}" data-id="${notif.id}">
-                        <div class="notification-icon">
-                            ${this.getNotificationIcon(notif.type)}
-                        </div>
-                        <div class="notification-content">
-                            <div class="notification-title">${this.getNotificationTitle(notif)}</div>
-                            <div class="notification-message">${notif.message || ''}</div>
-                            <div class="notification-time">${this.getTimeAgo(notif.timestamp)}</div>
-                        </div>
-                    </div>
-                `).join('');
-                
-                // إضافة مستمعين للنقر
-                document.querySelectorAll('.notification-item').forEach(item => {
-                    item.addEventListener('click', (e) => {
-                        const notifId = e.currentTarget.dataset.id;
-                        this.markAsRead(notifId);
-                        
-                        const notif = notifications.find(n => n.id === notifId);
-                        if (notif && notif.postId) {
-                            this.scrollToPost(notif.postId);
-                        }
-                    });
-                });
-            }
-            
-            getNotificationIcon(type) {
-                const icons = {
-                    'new_post': '<i class="fas fa-pen"></i>',
-                    'like': '<i class="fas fa-heart"></i>',
-                    'comment': '<i class="fas fa-comment"></i>',
-                    'mention': '<i class="fas fa-at"></i>',
-                    'event': '<i class="fas fa-calendar"></i>'
-                };
-                return icons[type] || '<i class="fas fa-bell"></i>';
-            }
-            
-            getNotificationTitle(notif) {
-                const titles = {
-                    'new_post': 'منشور جديد',
-                    'like': 'إعجاب جديد',
-                    'comment': 'تعليق جديد',
-                    'mention': 'تم ذكرك',
-                    'event': 'حدث قادم'
-                };
-                return titles[notif.type] || 'إشعار جديد';
-            }
-            
-            getTimeAgo(timestamp) {
-                const seconds = Math.floor((Date.now() - timestamp) / 1000);
-                if (seconds < 60) return 'الآن';
-                if (seconds < 3600) return `قبل ${Math.floor(seconds / 60)} دقيقة`;
-                if (seconds < 86400) return `قبل ${Math.floor(seconds / 3600)} ساعة`;
-                return `قبل ${Math.floor(seconds / 86400)} يوم`;
-            }
-            
-            async markAsRead(notificationId) {
-                try {
-                    await database.ref(`notifications/${this.currentUser.phone}/${notificationId}`).update({
-                        seen: true,
-                        seenAt: Date.now()
-                    });
-                    
-                    if (this.unreadCount > 0) {
-                        this.unreadCount--;
-                        this.updateCounter();
-                    }
-                } catch (error) {
-                    console.error('❌ خطأ في تحديد الإشعار كمقروء:', error);
-                }
-            }
-            
-            async markAllAsRead() {
-                try {
-                    const notificationsRef = database.ref(`notifications/${this.currentUser.phone}`);
-                    const snapshot = await notificationsRef.once('value');
-                    
-                    const updates = {};
-                    snapshot.forEach((child) => {
-                        if (!child.val().seen) {
-                            updates[`${child.key}/seen`] = true;
-                            updates[`${child.key}/seenAt`] = Date.now();
-                        }
-                    });
-                    
-                    await notificationsRef.update(updates);
-                    
-                    this.unreadCount = 0;
-                    this.updateCounter();
-                    
-                    showToast('تم تحديد جميع الإشعارات كمقروءة', 'success');
-                } catch (error) {
-                    console.error('❌ خطأ في تحديد جميع الإشعارات:', error);
-                    showToast('حدث خطأ', 'error');
-                }
-            }
-            
-            updateCounter() {
-                const counter = document.getElementById('notificationCount');
-                if (counter) {
-                    counter.textContent = this.unreadCount > 99 ? '99+' : this.unreadCount;
-                    counter.style.display = this.unreadCount > 0 ? 'flex' : 'none';
-                    
-                    if (this.unreadCount > 0) {
-                        counter.classList.add('pulse');
-                        setTimeout(() => counter.classList.remove('pulse'), 300);
-                    }
-                }
-            }
-            
-            addToNotificationsList(notification) {
-                const list = document.getElementById('notificationsList');
-                if (!list) return;
-                
-                // إزالة رسالة "لا توجد إشعارات"
-                if (list.querySelector('.no-notifications')) {
-                    list.innerHTML = '';
-                }
-                
-                const notificationHTML = `
-                    <div class="notification-item unread" data-id="${notification.id}">
-                        <div class="notification-icon">
-                            ${this.getNotificationIcon(notification.type)}
-                        </div>
-                        <div class="notification-content">
-                            <div class="notification-title">${this.getNotificationTitle(notification)}</div>
-                            <div class="notification-message">${notification.message || ''}</div>
-                            <div class="notification-time">الآن</div>
-                        </div>
-                    </div>
-                `;
-                
-                // إضافة في الأعلى
-                list.innerHTML = notificationHTML + list.innerHTML;
-            }
-            
-            scrollToPost(postId) {
-                const postElement = document.querySelector(`.post-card[data-id="${postId}"]`);
-                if (postElement) {
-                    postElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    
-                    // تأثير تمييز
-                    postElement.style.boxShadow = '0 0 0 3px #1877f2';
-                    setTimeout(() => {
-                        postElement.style.boxShadow = '';
-                    }, 2000);
-                }
-            }
-            
-            showToastNotification(notification) {
-                showToast(notification.message || 'إشعار جديد', 'info');
-            }
-            
-            async updateUnreadCount() {
-                if (!this.currentUser) return;
-                
-                try {
-                    const notificationsRef = database.ref(`notifications/${this.currentUser.phone}`);
-                    const snapshot = await notificationsRef.orderByChild('seen').equalTo(false).once('value');
-                    this.unreadCount = snapshot.numChildren();
-                    this.updateCounter();
-                } catch (error) {
-                    console.error('❌ خطأ في تحديث عداد الإشعارات:', error);
-                }
-            }
+        // Set user information
+        function setUserInfo() {
+            const firstLetter = currentUser.name.charAt(0);
+            userAvatar.textContent = firstLetter;
+            postAvatar.textContent = firstLetter;
         }
 
-        // ✨ Toast Notification Function
-        function showToast(message, type = 'info', duration = 5000) {
+        // Auto-expanding textarea for post input
+        function autoExpandTextarea(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = (textarea.scrollHeight) + 'px';
+        }
+
+        // Auto-expanding textarea for comment input
+        function autoExpandComment(textarea) {
+            textarea.style.height = 'auto';
+            const newHeight = Math.min(textarea.scrollHeight, 120);
+            textarea.style.height = newHeight + 'px';
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'info', duration = 3000) {
             const container = document.getElementById('toastContainer');
-            if (!container) return;
-            
-            const toastId = 'toast_' + Date.now();
-            const icons = {
-                success: '<i class="fas fa-check-circle"></i>',
-                error: '<i class="fas fa-exclamation-circle"></i>',
-                info: '<i class="fas fa-info-circle"></i>'
-            };
             
             const toast = document.createElement('div');
-            toast.id = toastId;
             toast.className = `toast-notification ${type}`;
             toast.innerHTML = `
-                <div class="toast-icon">${icons[type] || icons.info}</div>
+                <div class="toast-icon">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                </div>
                 <div class="toast-content">
                     <h4>${type === 'success' ? 'نجاح' : type === 'error' ? 'خطأ' : 'ملاحظة'}</h4>
                     <p>${message}</p>
                 </div>
-                <button class="close-toast" onclick="document.getElementById('${toastId}').remove()">
-                    <i class="fas fa-times"></i>
-                </button>
             `;
             
             container.appendChild(toast);
             
-            // إظهار مع تأثير
+            // Show
             setTimeout(() => toast.classList.add('show'), 10);
             
-            // إخفاء تلقائي بعد المدة
+            // Auto remove
             setTimeout(() => {
-                if (document.getElementById(toastId)) {
-                    toast.classList.remove('show');
-                    setTimeout(() => {
-                        if (document.getElementById(toastId)) {
-                            document.getElementById(toastId).remove();
-                        }
-                    }, 300);
-                }
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
             }, duration);
         }
 
-        // 📝 Set User Information
-        function setUserInfo() {
-            const firstLetter = currentUser.name.charAt(0);
-            userAvatar.textContent = firstLetter;
-            sidebarAvatar.textContent = firstLetter;
-            postAvatar.textContent = firstLetter;
+        // Format time ago
+        function getTimeAgo(timestamp) {
+            const seconds = Math.floor((Date.now() - timestamp) / 1000);
             
-            userName.textContent = currentUser.name;
-            sidebarName.textContent = currentUser.name;
-            sidebarPhone.textContent = `+20${currentUser.phone}`;
+            if (seconds < 60) return 'الآن';
+            if (seconds < 3600) return `قبل ${Math.floor(seconds / 60)} دقيقة`;
+            if (seconds < 86400) return `قبل ${Math.floor(seconds / 3600)} ساعة`;
+            if (seconds < 2592000) return `قبل ${Math.floor(seconds / 86400)} يوم`;
+            return `قبل ${Math.floor(seconds / 2592000)} شهر`;
         }
 
-        // 📤 Publish Post with Notification
-        async function publishPostWithNotification(postText) {
-            try {
-                // 1. إنشاء المنشور
-                const postRef = database.ref('posts').push();
-                const postId = postRef.key;
-                
-                const postData = {
-                    id: postId,
-                    text: postText,
-                    authorId: currentUser.phone,
-                    authorName: currentUser.name,
-                    timestamp: Date.now(),
-                    likes: 0,
-                    comments: {}
-                };
-                
-                await postRef.set(postData);
-                console.log('✅ تم نشر المنشور:', postId);
-                
-                // 2. إرسال إشعار لجميع المستخدمين
-                await sendNotificationToAllUsers({
-                    type: 'new_post',
-                    title: 'منشور جديد في القبيلة!',
-                    message: `${currentUser.name} نشر: ${postText.length > 50 ? postText.substring(0, 50) + '...' : postText}`,
-                    postId: postId,
-                    authorName: currentUser.name,
-                    timestamp: Date.now()
-                });
-                
-                return { success: true, postId: postId };
-                
-            } catch (error) {
-                console.error('❌ خطأ في نشر المنشور:', error);
-                return { success: false, error: error.message };
-            }
+        // Escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
-        // 📢 Send Notification to All Users
-        async function sendNotificationToAllUsers(notificationData) {
-            try {
-                // 1. جلب جميع المستخدمين
-                const usersRef = database.ref('users');
-                const usersSnapshot = await usersRef.once('value');
-                
-                const notificationsPromises = [];
-                
-                // 2. إرسال إشعار لكل مستخدم (ماعدا الناشر نفسه)
-                usersSnapshot.forEach((userSnapshot) => {
-                    const userId = userSnapshot.key;
-                    
-                    // لا ترسل إشعار للناشر نفسه
-                    if (userId === currentUser.phone) return;
-                    
-                    const userNotificationRef = database.ref(`notifications/${userId}`).push();
-                    const notificationId = userNotificationRef.key;
-                    
-                    const fullNotification = {
-                        ...notificationData,
-                        id: notificationId,
-                        userId: userId,
-                        seen: false,
-                        timestamp: Date.now()
-                    };
-                    
-                    notificationsPromises.push(userNotificationRef.set(fullNotification));
-                });
-                
-                // 3. تنفيذ جميع عمليات الإشعار
-                await Promise.all(notificationsPromises);
-                
-                console.log(`📢 تم إرسال إشعار إلى ${usersSnapshot.numChildren() - 1} مستخدم`);
-                return true;
-                
-            } catch (error) {
-                console.error('❌ خطأ في إرسال الإشعارات:', error);
-                return false;
-            }
-        }
-
-        // 📥 Load Posts
+        // Load posts
         function loadPosts() {
             const postsRef = database.ref('posts');
             
@@ -1904,52 +1109,85 @@
                 snapshot.forEach((childSnapshot) => {
                     const post = childSnapshot.val();
                     post.id = childSnapshot.key;
-                    posts.unshift(post); // Newest first
+                    posts.unshift(post);
                 });
                 
                 if (posts.length === 0) {
-                    noPosts.style.display = 'block';
+                    postsContainer.innerHTML = `
+                        <div class="no-posts">
+                            <i class="fas fa-comments"></i>
+                            <h3>لا توجد منشورات بعد</h3>
+                            <p>كن أول من ينشر في القبيلة!</p>
+                        </div>
+                    `;
                 } else {
-                    noPosts.style.display = 'none';
                     posts.forEach(renderPost);
                 }
             });
         }
 
-        // 🎨 Render a Single Post
+        // Render post based on type
         function renderPost(post) {
             const postElement = document.createElement('div');
             postElement.className = 'post-card';
             postElement.dataset.id = post.id;
             
-            const firstLetter = post.authorName ? post.authorName.charAt(0) : 'م';
+            const firstLetter = post.authorName?.charAt(0) || 'م';
             const timeAgo = getTimeAgo(post.timestamp);
             
-            postElement.innerHTML = `
-                <div class="post-header">
-                    <div class="post-author">
+            // Base post structure
+            let postContent = '';
+            
+            if (post.type === 'vote') {
+                // Vote post
+                postContent = `
+                    <div class="post-header">
                         <div class="author-avatar">${firstLetter}</div>
                         <div class="author-info">
                             <h4>${post.authorName || 'عضو القبيلة'}</h4>
                             <div class="post-time">
-                                <i class="far fa-clock"></i>
+                                <span class="post-type-badge">تصويت</span>
                                 <span>${timeAgo}</span>
                             </div>
                         </div>
                     </div>
-                    <button class="menu-btn post-menu-btn">
-                        <i class="fas fa-ellipsis-h"></i>
-                    </button>
-                </div>
-                
-                <div class="post-content">
-                    <div class="post-text">${escapeHtml(post.text)}</div>
-                </div>
-                
+                    
+                    <div class="post-content">
+                        <div class="post-text">${escapeHtml(post.text)}</div>
+                        <div class="vote-post" id="vote-${post.id}">
+                            ${renderVoteOptions(post)}
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Text post
+                postContent = `
+                    <div class="post-header">
+                        <div class="author-avatar">${firstLetter}</div>
+                        <div class="author-info">
+                            <h4>${post.authorName || 'عضو القبيلة'}</h4>
+                            <div class="post-time">
+                                <span class="post-type-badge">منشور</span>
+                                <span>${timeAgo}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="post-content">
+                        <div class="post-text">${escapeHtml(post.text)}</div>
+                    </div>
+                `;
+            }
+            
+            postElement.innerHTML = postContent + `
                 <div class="post-stats">
                     <div class="likes-count">
                         <i class="fas fa-thumbs-up"></i>
                         <span>${post.likes || 0} إعجاب</span>
+                    </div>
+                    <div class="dislikes-count">
+                        <i class="fas fa-thumbs-down"></i>
+                        <span>${post.dislikes || 0} عدم إعجاب</span>
                     </div>
                     <div class="comments-count">
                         <span>${post.comments ? Object.keys(post.comments).length : 0} تعليق</span>
@@ -1961,13 +1199,13 @@
                         <i class="far fa-thumbs-up"></i>
                         <span>إعجاب</span>
                     </button>
+                    <button class="post-action-btn dislike-btn" data-id="${post.id}">
+                        <i class="far fa-thumbs-down"></i>
+                        <span>عدم إعجاب</span>
+                    </button>
                     <button class="post-action-btn comment-btn" data-id="${post.id}">
                         <i class="far fa-comment"></i>
                         <span>تعليق</span>
-                    </button>
-                    <button class="post-action-btn share-btn" data-id="${post.id}">
-                        <i class="fas fa-share"></i>
-                        <span>مشاركة</span>
                     </button>
                 </div>
                 
@@ -1978,56 +1216,176 @@
             
             postsContainer.appendChild(postElement);
             
-            // Load comments for this post
+            // Load comments
             loadComments(post.id);
-            
-            // Add event listeners
-            const likeBtn = postElement.querySelector('.like-btn');
-            const commentBtn = postElement.querySelector('.comment-btn');
-            
-            likeBtn.addEventListener('click', () => toggleLike(post.id));
-            commentBtn.addEventListener('click', () => focusComment(post.id));
             
             // Add comment input
             addCommentInput(post.id);
-        }
-
-        // 💬 Add Comment Input
-        function addCommentInput(postId) {
-            const commentsSection = document.getElementById(`comments-${postId}`);
-            
-            const commentInputHTML = `
-                <div class="add-comment">
-                    <div class="comment-avatar">${currentUser.name.charAt(0)}</div>
-                    <div class="comment-input-container">
-                        <input 
-                            type="text" 
-                            class="comment-input" 
-                            placeholder="اكتب تعليقاً..."
-                            data-post="${postId}"
-                        >
-                        <button class="comment-btn" data-post="${postId}">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            commentsSection.innerHTML += commentInputHTML;
             
             // Add event listeners
-            const commentSubmitBtn = commentsSection.querySelector('.comment-btn');
-            const commentInput = commentsSection.querySelector('.comment-input');
+            const likeBtn = postElement.querySelector('.like-btn');
+            const dislikeBtn = postElement.querySelector('.dislike-btn');
+            const commentBtn = postElement.querySelector('.comment-btn');
             
-            commentSubmitBtn.addEventListener('click', () => addComment(postId));
-            commentInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    addComment(postId);
-                }
+            likeBtn.addEventListener('click', () => toggleLike(post.id));
+            dislikeBtn.addEventListener('click', () => toggleDislike(post.id));
+            commentBtn.addEventListener('click', () => focusComment(post.id));
+            
+            // If vote post, setup vote options
+            if (post.type === 'vote') {
+                setupVoteOptions(post.id, post.options || []);
+            }
+            
+            // Update like/dislike state
+            updateLikeDislikeState(post.id, post);
+        }
+
+        // Render vote options
+        function renderVoteOptions(post) {
+            const options = post.options || [];
+            const votes = post.votes || {};
+            const totalVotes = Object.keys(votes).length;
+            const userVote = votes[currentUser.phone];
+            
+            let optionsHtml = '<h5>اختر إجابة:</h5>';
+            
+            options.forEach((option, index) => {
+                const optionVotes = Object.values(votes).filter(v => v === index).length;
+                const percentage = totalVotes > 0 ? Math.round((optionVotes / totalVotes) * 100) : 0;
+                const isSelected = userVote === index;
+                
+                optionsHtml += `
+                    <div class="vote-option-result ${isSelected ? 'selected' : ''}" data-index="${index}">
+                        <div class="vote-bar" style="width: ${percentage}%"></div>
+                        <div class="vote-content">
+                            <div class="vote-text">${escapeHtml(option)}</div>
+                            <div class="vote-percentage">${percentage}%</div>
+                        </div>
+                        <div class="vote-count">${optionVotes} صوت</div>
+                    </div>
+                `;
+            });
+            
+            return optionsHtml;
+        }
+
+        // Setup vote options interaction
+        function setupVoteOptions(postId, options) {
+            const voteOptions = document.querySelectorAll(`#vote-${postId} .vote-option-result`);
+            
+            voteOptions.forEach(option => {
+                option.addEventListener('click', async () => {
+                    const optionIndex = parseInt(option.dataset.index);
+                    await castVote(postId, optionIndex);
+                });
             });
         }
 
-        // 📝 Load Comments
+        // Cast vote
+        async function castVote(postId, optionIndex) {
+            try {
+                await database.ref(`posts/${postId}/votes/${currentUser.phone}`).set(optionIndex);
+                showToast('تم تسجيل صوتك بنجاح', 'success');
+            } catch (error) {
+                console.error('Error casting vote:', error);
+                showToast('حدث خطأ في التصويت', 'error');
+            }
+        }
+
+        // Update like/dislike state
+        function updateLikeDislikeState(postId, post) {
+            const likes = post.likesData || {};
+            const dislikes = post.dislikesData || {};
+            
+            const likeBtn = document.querySelector(`.like-btn[data-id="${postId}"]`);
+            const dislikeBtn = document.querySelector(`.dislike-btn[data-id="${postId}"]`);
+            
+            if (likes[currentUser.phone]) {
+                likeBtn.classList.add('liked');
+                likeBtn.innerHTML = '<i class="fas fa-thumbs-up"></i><span>إعجاب</span>';
+            }
+            
+            if (dislikes[currentUser.phone]) {
+                dislikeBtn.classList.add('disliked');
+                dislikeBtn.innerHTML = '<i class="fas fa-thumbs-down"></i><span>عدم إعجاب</span>';
+            }
+        }
+
+        // Toggle like
+        async function toggleLike(postId) {
+            try {
+                const postRef = database.ref(`posts/${postId}`);
+                
+                await postRef.transaction((post) => {
+                    if (!post) return post;
+                    
+                    // Initialize data if not exists
+                    if (!post.likesData) post.likesData = {};
+                    if (!post.dislikesData) post.dislikesData = {};
+                    
+                    const userPhone = currentUser.phone;
+                    
+                    if (post.likesData[userPhone]) {
+                        // Remove like
+                        delete post.likesData[userPhone];
+                        post.likes = Math.max(0, (post.likes || 1) - 1);
+                    } else {
+                        // Add like, remove dislike if exists
+                        post.likesData[userPhone] = true;
+                        if (post.dislikesData[userPhone]) {
+                            delete post.dislikesData[userPhone];
+                            post.dislikes = Math.max(0, (post.dislikes || 1) - 1);
+                        }
+                        post.likes = (post.likes || 0) + 1;
+                    }
+                    
+                    return post;
+                });
+                
+            } catch (error) {
+                console.error('Error toggling like:', error);
+                showToast('حدث خطأ في الإعجاب', 'error');
+            }
+        }
+
+        // Toggle dislike
+        async function toggleDislike(postId) {
+            try {
+                const postRef = database.ref(`posts/${postId}`);
+                
+                await postRef.transaction((post) => {
+                    if (!post) return post;
+                    
+                    // Initialize data if not exists
+                    if (!post.likesData) post.likesData = {};
+                    if (!post.dislikesData) post.dislikesData = {};
+                    
+                    const userPhone = currentUser.phone;
+                    
+                    if (post.dislikesData[userPhone]) {
+                        // Remove dislike
+                        delete post.dislikesData[userPhone];
+                        post.dislikes = Math.max(0, (post.dislikes || 1) - 1);
+                    } else {
+                        // Add dislike, remove like if exists
+                        post.dislikesData[userPhone] = true;
+                        if (post.likesData[userPhone]) {
+                            delete post.likesData[userPhone];
+                            post.likes = Math.max(0, (post.likes || 1) - 1);
+                        }
+                        post.dislikes = (post.dislikes || 0) + 1;
+                    }
+                    
+                    return post;
+                });
+                
+            } catch (error) {
+                console.error('Error toggling dislike:', error);
+                showToast('حدث خطأ في عدم الإعجاب', 'error');
+            }
+        }
+
+        // Load comments
         function loadComments(postId) {
             const commentsRef = database.ref(`posts/${postId}/comments`);
             
@@ -2054,12 +1412,58 @@
                         </div>
                     `;
                     
-                    commentsSection.insertBefore(commentElement, commentsSection.querySelector('.add-comment'));
+                    const addCommentDiv = commentsSection.querySelector('.add-comment');
+                    if (addCommentDiv) {
+                        commentsSection.insertBefore(commentElement, addCommentDiv);
+                    } else {
+                        commentsSection.appendChild(commentElement);
+                    }
                 });
             });
         }
 
-        // ❤️ Add Comment
+        // Add comment input
+        function addCommentInput(postId) {
+            const commentsSection = document.getElementById(`comments-${postId}`);
+            
+            const commentInputHTML = `
+                <div class="add-comment">
+                    <div class="comment-avatar">${currentUser.name.charAt(0)}</div>
+                    <div class="comment-input-container">
+                        <textarea 
+                            class="comment-input" 
+                            placeholder="اكتب تعليقاً..."
+                            rows="1"
+                            data-post="${postId}"
+                        ></textarea>
+                        <button class="comment-btn" data-post="${postId}">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            commentsSection.innerHTML += commentInputHTML;
+            
+            // Add event listeners
+            const commentSubmitBtn = commentsSection.querySelector('.comment-btn');
+            const commentInput = commentsSection.querySelector('.comment-input');
+            
+            commentSubmitBtn.addEventListener('click', () => addComment(postId));
+            commentInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    addComment(postId);
+                }
+            });
+            
+            // Auto-expand textarea
+            commentInput.addEventListener('input', () => {
+                autoExpandComment(commentInput);
+            });
+        }
+
+        // Add comment
         async function addComment(postId) {
             const commentInput = document.querySelector(`.comment-input[data-post="${postId}"]`);
             const commentText = commentInput.value.trim();
@@ -2076,8 +1480,9 @@
                 
                 await database.ref(`posts/${postId}/comments`).push().set(comment);
                 commentInput.value = '';
+                autoExpandComment(commentInput);
                 
-                // Send notification to post author (if not the same user)
+                // Send notification to post author
                 const postRef = database.ref(`posts/${postId}`);
                 const postSnapshot = await postRef.once('value');
                 const post = postSnapshot.val();
@@ -2086,50 +1491,22 @@
                     await database.ref(`notifications/${post.authorId}`).push().set({
                         type: 'comment',
                         title: 'تعليق جديد على منشورك',
-                        message: `${currentUser.name} علق: ${commentText.substring(0, 50)}${commentText.length > 50 ? '...' : ''}`,
+                        message: `${currentUser.name} علق على منشورك`,
                         postId: postId,
                         timestamp: Date.now(),
                         seen: false
                     });
                 }
                 
+                showToast('تم نشر التعليق', 'success');
+                
             } catch (error) {
-                console.error('❌ خطأ في إضافة التعليق:', error);
+                console.error('Error adding comment:', error);
                 showToast('حدث خطأ في إضافة التعليق', 'error');
             }
         }
 
-        // 👍 Toggle Like
-        async function toggleLike(postId) {
-            try {
-                const postRef = database.ref(`posts/${postId}`);
-                
-                await postRef.transaction((post) => {
-                    if (post) {
-                        post.likes = (post.likes || 0) + 1;
-                        
-                        // Send notification to post author (if not the same user)
-                        if (post.authorId !== currentUser.phone) {
-                            database.ref(`notifications/${post.authorId}`).push().set({
-                                type: 'like',
-                                title: 'إعجاب جديد على منشورك',
-                                message: `${currentUser.name} أعجب بمنشورك`,
-                                postId: postId,
-                                timestamp: Date.now(),
-                                seen: false
-                            });
-                        }
-                    }
-                    return post;
-                });
-                
-            } catch (error) {
-                console.error('❌ خطأ في الإعجاب:', error);
-                showToast('حدث خطأ في الإعجاب', 'error');
-            }
-        }
-
-        // 🎯 Focus on Comment Input
+        // Focus on comment input
         function focusComment(postId) {
             const commentInput = document.querySelector(`.comment-input[data-post="${postId}"]`);
             if (commentInput) {
@@ -2137,99 +1514,298 @@
             }
         }
 
-        // 🕒 Get Time Ago
-        function getTimeAgo(timestamp) {
-            const seconds = Math.floor((Date.now() - timestamp) / 1000);
+        // Publish post
+        async function publishPost() {
+            const postText = postInput.value.trim();
+            const activeType = document.querySelector('.post-type-btn.active').dataset.type;
             
-            if (seconds < 60) return 'الآن';
-            if (seconds < 3600) return `قبل ${Math.floor(seconds / 60)} دقيقة`;
-            if (seconds < 86400) return `قبل ${Math.floor(seconds / 3600)} ساعة`;
-            if (seconds < 2592000) return `قبل ${Math.floor(seconds / 86400)} يوم`;
-            if (seconds < 31536000) return `قبل ${Math.floor(seconds / 2592000)} شهر`;
-            return `قبل ${Math.floor(seconds / 31536000)} سنة`;
+            if (!postText) {
+                showToast('الرجاء كتابة محتوى المنشور', 'error');
+                return;
+            }
+            
+            if (activeType === 'vote') {
+                const voteOptions = Array.from(document.querySelectorAll('.vote-option-input'))
+                    .map(input => input.value.trim())
+                    .filter(value => value);
+                
+                if (voteOptions.length < 2) {
+                    showToast('يجب إضافة خيارين على الأقل للتصويت', 'error');
+                    return;
+                }
+            }
+            
+            // Disable button and show loading
+            submitPost.disabled = true;
+            const originalHTML = submitPost.innerHTML;
+            submitPost.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            
+            try {
+                const postRef = database.ref('posts').push();
+                const postId = postRef.key;
+                
+                const postData = {
+                    id: postId,
+                    text: postText,
+                    type: activeType,
+                    authorId: currentUser.phone,
+                    authorName: currentUser.name,
+                    timestamp: Date.now(),
+                    likes: 0,
+                    dislikes: 0,
+                    likesData: {},
+                    dislikesData: {},
+                    comments: {}
+                };
+                
+                // Add vote options if vote type
+                if (activeType === 'vote') {
+                    const voteOptions = Array.from(document.querySelectorAll('.vote-option-input'))
+                        .map(input => input.value.trim())
+                        .filter(value => value);
+                    postData.options = voteOptions;
+                    postData.votes = {};
+                }
+                
+                await postRef.set(postData);
+                
+                // Send notifications to all users
+                await sendNotificationToAllUsers({
+                    type: 'new_post',
+                    title: 'منشور جديد في القبيلة!',
+                    message: `${currentUser.name} نشر ${activeType === 'vote' ? 'تصويت جديد' : 'منشور جديد'}`,
+                    postId: postId,
+                    authorName: currentUser.name,
+                    timestamp: Date.now()
+                });
+                
+                // Reset form
+                postInput.value = '';
+                autoExpandTextarea(postInput);
+                
+                // Reset vote options if vote type
+                if (activeType === 'vote') {
+                    document.querySelectorAll('.vote-option-input').forEach((input, index) => {
+                        if (index < 2) {
+                            input.value = index === 0 ? 'الخيار الأول' : 'الخيار الثاني';
+                        } else {
+                            input.parentElement.remove();
+                        }
+                    });
+                }
+                
+                showToast('تم نشر المنشور بنجاح', 'success');
+                
+            } catch (error) {
+                console.error('Error publishing post:', error);
+                showToast('حدث خطأ في نشر المنشور', 'error');
+            } finally {
+                // Restore button
+                submitPost.innerHTML = originalHTML;
+                submitPost.disabled = false;
+            }
         }
 
-        // 🔒 Escape HTML
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+        // Send notification to all users
+        async function sendNotificationToAllUsers(notificationData) {
+            try {
+                const usersRef = database.ref('users');
+                const usersSnapshot = await usersRef.once('value');
+                
+                const notificationsPromises = [];
+                
+                usersSnapshot.forEach((userSnapshot) => {
+                    const userId = userSnapshot.key;
+                    
+                    // Skip current user
+                    if (userId === currentUser.phone) return;
+                    
+                    const userNotificationRef = database.ref(`notifications/${userId}`).push();
+                    const notificationId = userNotificationRef.key;
+                    
+                    const fullNotification = {
+                        ...notificationData,
+                        id: notificationId,
+                        userId: userId,
+                        seen: false,
+                        timestamp: Date.now()
+                    };
+                    
+                    notificationsPromises.push(userNotificationRef.set(fullNotification));
+                });
+                
+                await Promise.all(notificationsPromises);
+                
+            } catch (error) {
+                console.error('Error sending notifications:', error);
+            }
         }
 
-        // 🚪 Logout
-        logoutBtn.addEventListener('click', () => {
+        // Load notifications
+        function loadNotifications() {
+            const notificationsRef = database.ref(`notifications/${currentUser.phone}`);
+            
+            notificationsRef.orderByChild('timestamp').on('value', (snapshot) => {
+                let unreadCount = 0;
+                const notifications = [];
+                
+                snapshot.forEach((childSnapshot) => {
+                    const notification = childSnapshot.val();
+                    notification.id = childSnapshot.key;
+                    notifications.unshift(notification);
+                    
+                    if (!notification.seen) unreadCount++;
+                });
+                
+                // Update notification count
+                if (notificationCount) {
+                    notificationCount.textContent = unreadCount > 99 ? '99+' : unreadCount;
+                    notificationCount.style.display = unreadCount > 0 ? 'flex' : 'none';
+                }
+            });
+        }
+
+        // Logout
+        function logout() {
             if (confirm('هل تريد تسجيل الخروج؟')) {
                 localStorage.removeItem('currentUser');
                 window.location.href = 'index.html';
             }
-        });
+        }
 
-        // 🎬 Initialize Everything
+        // Initialize everything
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Set user information
+            // Set user info
             setUserInfo();
             
-            // 2. Load posts
+            // Load posts
             loadPosts();
             
-            // 3. Initialize notification system
-            window.notificationSystem = new NotificationSystem();
+            // Load notifications
+            loadNotifications();
             
-            // 4. Set up navigation
-            const navBtns = document.querySelectorAll('.nav-btn');
-            navBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    navBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
+            // Auto-expand textarea on input
+            postInput.addEventListener('input', () => {
+                autoExpandTextarea(postInput);
+            });
+            
+            // Post type selector
+            postTypeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    postTypeButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Show/hide vote options
+                    if (button.dataset.type === 'vote') {
+                        voteOptionsContainer.classList.add('show');
+                    } else {
+                        voteOptionsContainer.classList.remove('show');
+                    }
                 });
             });
             
-            // 5. Set up post submission
-            submitPost.addEventListener('click', async () => {
-                const postText = postInput.value.trim();
-                
-                if (!postText) {
-                    showToast('الرجاء كتابة محتوى المنشور', 'error');
-                    return;
-                }
-                
-                // Disable button and show loading
-                submitPost.disabled = true;
-                const originalHTML = submitPost.innerHTML;
-                submitPost.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري النشر...';
-                
-                // Publish with notification
-                const result = await publishPostWithNotification(postText);
-                
-                if (result.success) {
-                    postInput.value = '';
-                    showToast('تم نشر المنشور وإرسال الإشعار للجميع!', 'success');
-                } else {
-                    showToast(`خطأ: ${result.error}`, 'error');
-                }
-                
-                // Restore button
-                submitPost.innerHTML = originalHTML;
-                submitPost.disabled = false;
+            // Add vote option
+            addOptionBtn.addEventListener('click', () => {
+                const voteOption = document.createElement('div');
+                voteOption.className = 'vote-option';
+                voteOption.innerHTML = `
+                    <input type="text" placeholder="خيار جديد" class="vote-option-input">
+                `;
+                voteOptionsContainer.insertBefore(voteOption, addOptionBtn);
             });
             
-            // 6. Mark all as read button
-            document.getElementById('markAllRead')?.addEventListener('click', () => {
-                window.notificationSystem.markAllAsRead();
-            });
+            // Submit post
+            submitPost.addEventListener('click', publishPost);
             
-            // 7. Post input enter key
+            // Enter key to submit post
             postInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
-                    submitPost.click();
+                    publishPost();
                 }
             });
             
-            console.log('🚀 الصفحة جاهزة للعمل!');
+            // Notification bell click
+            notificationBell.addEventListener('click', () => {
+                showNotificationsModal();
+            });
+            
+            // Logout
+            logoutBtnNav.addEventListener('click', logout);
+            
+            // Bottom navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    if (this.id === 'logoutBtnNav') return;
+                    
+                    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Handle navigation
+                    const text = this.querySelector('span').textContent;
+                    if (text === 'نشر') {
+                        postInput.focus();
+                    }
+                });
+            });
+            
+            // Close notifications modal
+            document.getElementById('closeNotificationsModal')?.addEventListener('click', () => {
+                document.getElementById('notificationsModal').classList.remove('show');
+            });
+            
+            console.log('📱 التطبيق جاهز للعمل على الهاتف!');
         });
 
-        // 🎵 Optional: Auto-logout after 24 hours
+        // Show notifications modal
+        function showNotificationsModal() {
+            const modal = document.getElementById('notificationsModal');
+            const modalList = document.getElementById('modalNotificationsList');
+            
+            // Load notifications into modal
+            const notificationsRef = database.ref(`notifications/${currentUser.phone}`);
+            notificationsRef.orderByChild('timestamp').limitToLast(20).once('value', (snapshot) => {
+                const notifications = [];
+                
+                snapshot.forEach((childSnapshot) => {
+                    const notification = childSnapshot.val();
+                    notification.id = childSnapshot.key;
+                    notifications.unshift(notification);
+                });
+                
+                if (notifications.length === 0) {
+                    modalList.innerHTML = `
+                        <div style="padding: 40px 20px; text-align: center; color: #666;">
+                            <i class="far fa-bell-slash" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+                            <p>لا توجد إشعارات</p>
+                        </div>
+                    `;
+                } else {
+                    modalList.innerHTML = notifications.map(notif => `
+                        <div style="padding: 15px; border-bottom: 1px solid #eee; ${!notif.seen ? 'background: #f0f8ff;' : ''}">
+                            <div style="font-weight: 600; font-size: 14px; margin-bottom: 5px;">${notif.title || 'إشعار جديد'}</div>
+                            <div style="font-size: 13px; color: #666; margin-bottom: 3px;">${notif.message || ''}</div>
+                            <div style="font-size: 11px; color: #999;">${getTimeAgo(notif.timestamp)}</div>
+                        </div>
+                    `).join('');
+                }
+            });
+            
+            modal.classList.add('show');
+            
+            // Mark all as read
+            const updates = {};
+            notificationsRef.once('value').then(snapshot => {
+                snapshot.forEach(child => {
+                    if (!child.val().seen) {
+                        updates[`${child.key}/seen`] = true;
+                    }
+                });
+                notificationsRef.update(updates);
+            });
+        }
+
+        // Auto-logout after 24 hours
         setTimeout(() => {
             localStorage.removeItem('currentUser');
             window.location.href = 'index.html';
